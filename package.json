@@ -1,0 +1,29 @@
+{
+	"name": "pictionary",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "cd server && npm start",
+		"dev": "concurrently \"cd client && npm start\" \"cd server && npm run dev\"",
+		"build": "npm run build-client && npm run build-server",
+		"build-client": "cd client && npm run build",
+		"build-server": "cd server && npm run build",
+		"install-all": "npm run install-client && npm run install-server",
+		"install-client": "cd client && npm i",
+		"install-server": "cd server && npm i"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/atharva-bhange/pictionary.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/atharva-bhange/pictionary/issues"
+	},
+	"homepage": "https://github.com/atharva-bhange/pictionary#readme",
+	"devDependencies": {
+		"concurrently": "^5.3.0"
+	}
+}
