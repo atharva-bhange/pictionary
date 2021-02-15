@@ -1,0 +1,12 @@
+@import "utils/default.scss";
+
+.game-panel {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	p {
+		font-size: 25px;
+	}
+}

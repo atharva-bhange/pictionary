@@ -1,0 +1,17 @@
+.tool-box {
+	border-top: solid black 4px;
+	border-bottom: solid black 4px;
+	.color-panel {
+		width: 500px;
+		display: inline-block;
+		.boxes {
+			display: inline-block;
+			width: 48px;
+			height: 48px;
+			border: solid lightgray 1px;
+		}
+		.box-focus {
+			border-color: black;
+		}
+	}
+}

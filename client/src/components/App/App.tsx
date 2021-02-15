@@ -1,28 +1,36 @@
 import React from "react";
 import { Router, Route } from "react-router-dom";
-import { Provider } from "react-redux";
+import { connect } from "react-redux";
 
 import "./App.scss";
 import Login from "components/Login";
 import Game from "components/Game";
+import GamePanel from "components/GamePanel";
+import Header from "components/Header";
 import history from "utils/history";
-import store from "utils/storeConfig";
+import storeType from "types/storeType";
+import AppPropType from "./AppPropType";
 
-const App: React.FC = () => {
+const App: React.FC<AppPropType> = ({ name }) => {
 	return (
 		<div className="app">
-			<Provider store={store}>
-				<Router history={history}>
-					<Route path="/" exact>
-						<Login />
-					</Route>
-					<Route path="/:id" exact>
-						<Game />
-					</Route>
-				</Router>
-			</Provider>
+			<Router history={history}>
+				<Route path="/" exact>
+					<Header />
+					{!name ? <Login /> : <GamePanel />}
+				</Route>
+				<Route path="/:id" exact>
+					<Game />
+				</Route>
+			</Router>
 		</div>
 	);
 };
 
-export default App;
+const mapStateToProps = (state: storeType) => {
+	return {
+		name: state.name,
+	};
+};
+
+export default connect(mapStateToProps)(App);
