@@ -10,12 +10,14 @@ const server = http.createServer(app);
 
 const io = new socketio.Server(server);
 
-let DB = process.env.DATABASE?.replace(
-	"<USERNAME>",
-	process.env.DATABASE_USERNAME!
-)!;
+// let DB = process.env.DATABASE?.replace(
+// 	"<USERNAME>",
+// 	process.env.DATABASE_USERNAME!
+// )!;
 
-DB = DB.replace("<PASSWORD>", process.env.DATABASE_PASSWORD!);
+// DB = DB.replace("<PASSWORD>", process.env.DATABASE_PASSWORD!);
+
+let DB = process.env.LOCAL_DATABASE!;
 
 mongoose
 	.connect(DB, {

@@ -21,9 +21,8 @@ Content Example
 ```javascript
 {
     status : "success",
-    data : {
-        room : "Room Id Sent"
-    }
+    sroom : "Room Id Sent"
+    
 }
 ```
 ## Error Response
@@ -34,8 +33,7 @@ Content Example
 ```javascript
 {
     status : "fail",
-    data : {
-        err : "Some Error Here"
-    }
+    err : "Some Error Here"
+
 }
 ```
