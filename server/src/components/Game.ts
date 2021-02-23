@@ -3,7 +3,7 @@ import Player from "./Player";
 import { Server } from "socket.io";
 
 import Round from "./Round";
-import { gameDataType } from "../../../types/data";
+import { gameDataType, canvasDataType } from "../../../types/data";
 
 class Game {
 	id: string;
@@ -49,9 +49,14 @@ class Game {
 
 		io.to(this.id).emit("start-round", gameData);
 
-		currentRound.drawerPlayer?.socket.on("drawing-data", (data) => {
-			currentRound.drawerPlayer?.socket.to(this.id).emit(data);
-		});
+		currentRound.drawerPlayer?.socket.on(
+			"drawing-data",
+			(data: canvasDataType) => {
+				currentRound.drawerPlayer?.socket
+					.to(this.id)
+					.emit("incoming-drawing-data", data);
+			}
+		);
 	};
 }
 

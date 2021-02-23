@@ -6,3 +6,11 @@ export interface gameDataType {
 		drawer: string;
 	};
 }
+
+export interface canvasDataType {
+	penColor: string;
+	penSize: number;
+	xCor: number;
+	yCor: number;
+	isFinished: boolean;
+}

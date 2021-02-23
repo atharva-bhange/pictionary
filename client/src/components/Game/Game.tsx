@@ -50,7 +50,11 @@ const Game: React.FC<GamePropType> = ({ name, room, setRoom }) => {
 		<Container fluid>
 			<Row className="wrapper">
 				<Col className="cols" ref={canvasBox} xs={9}>
-					<Canvas width={canvasSize.width} height={canvasSize.height} />
+					<Canvas
+						client={client.current}
+						width={canvasSize.width}
+						height={canvasSize.height}
+					/>
 				</Col>
 				<Col className="chat-box cols"></Col>
 			</Row>

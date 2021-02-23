@@ -1,7 +1,12 @@
 import { ThunkAction } from "redux-thunk";
-import { setNameAction, setRoomAction, setGameAction } from "./actionTypes";
+import {
+	setNameAction,
+	setRoomAction,
+	setGameAction,
+	setCanvasAction,
+} from "./actionTypes";
 import storeType from "types/storeType";
-import { gameDataType } from "../../../types/data";
+import { gameDataType, canvasDataType } from "../../../types/data";
 
 export type setNameActionCreatorType = (name: string | null) => setNameAction;
 
@@ -22,3 +27,7 @@ export type createRoomActionCreatorType = ThunkAction<
 export type setRoomActionCreatorType = (roomId: string | null) => setRoomAction;
 
 export type setGameActionCreatorType = (game: gameDataType) => setGameAction;
+
+export type setCanvasDataActionCreator = (
+	data: canvasDataType
+) => setCanvasAction;

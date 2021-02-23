@@ -1,7 +1,7 @@
 import { io, Socket } from "socket.io-client";
-import { setGame } from "action";
+import { setGame, setCanvasData } from "action";
 import store from "utils/storeConfig";
-import { gameDataType } from "../../../types/data";
+import { gameDataType, canvasDataType } from "../../../types/data";
 
 export class Client {
 	socket: Socket;
@@ -23,10 +23,16 @@ export class Client {
 			if (game.round.drawer === store.getState().name) {
 				// this player is the drawer
 			} else {
+				this.socket.on("incoming-drawing-data", (data: canvasDataType) =>
+					store.dispatch(setCanvasData(data))
+				);
 			}
 		});
 	}
 	joinGame(name: string, gameId: string) {
 		this.socket.emit("join-game", { gameId, name });
+	}
+	sendDrawingData(drawingData: canvasDataType) {
+		this.socket.emit("drawing-data", drawingData);
 	}
 }

@@ -5,6 +5,7 @@ import {
 	createRoomActionCreatorType,
 	setRoomActionCreatorType,
 	setGameActionCreatorType,
+	setCanvasDataActionCreator,
 } from "types/actionCreatorTypes";
 import apiHandler from "utils/apiHandler";
 
@@ -65,5 +66,12 @@ export const setGame: setGameActionCreatorType = (game) => {
 	return {
 		type: "SET_GAME",
 		payload: game,
+	};
+};
+
+export const setCanvasData: setCanvasDataActionCreator = (data) => {
+	return {
+		type: "SET_CANVAS",
+		payload: data,
 	};
 };
