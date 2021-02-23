@@ -2,7 +2,9 @@ import axios from "axios";
 import {
 	setNameActionCreatorType,
 	getRandomRoomActionCreatorType,
-	createRoomActionCreator,
+	createRoomActionCreatorType,
+	setRoomActionCreatorType,
+	setGameActionCreatorType,
 } from "types/actionCreatorTypes";
 import apiHandler from "utils/apiHandler";
 
@@ -13,13 +15,20 @@ export const setName: setNameActionCreatorType = (name) => {
 	};
 };
 
+export const setRoom: setRoomActionCreatorType = (roomId) => {
+	return {
+		type: "SET_ROOM",
+		payload: roomId,
+	};
+};
+
 export const getRandomRoom = (): getRandomRoomActionCreatorType => (
 	dispatch
 ) => {
 	new apiHandler(axios.get("/api/v1/room"))
 		.code(200, (res) => {
 			dispatch({
-				type: "GET_RANDOM_ROOM",
+				type: "SET_ROOM",
 				payload: res.data.room.roomId as string,
 			});
 		})
@@ -32,7 +41,7 @@ export const getRandomRoom = (): getRandomRoomActionCreatorType => (
 		.call();
 };
 
-export const createRoom = (newRoom: string): createRoomActionCreator => (
+export const createRoom = (newRoom: string): createRoomActionCreatorType => (
 	dispatch
 ) => {
 	new apiHandler(
@@ -42,7 +51,7 @@ export const createRoom = (newRoom: string): createRoomActionCreator => (
 	)
 		.code(200, (res) => {
 			dispatch({
-				type: "CREATE_ROOM",
+				type: "SET_ROOM",
 				payload: res.data.room.roomId,
 			});
 		})
@@ -50,4 +59,11 @@ export const createRoom = (newRoom: string): createRoomActionCreator => (
 			console.log("Could Not create room");
 		})
 		.call();
+};
+
+export const setGame: setGameActionCreatorType = (game) => {
+	return {
+		type: "SET_GAME",
+		payload: game,
+	};
 };

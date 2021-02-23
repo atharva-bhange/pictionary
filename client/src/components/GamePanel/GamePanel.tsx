@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import history from "utils/history";
 import storeType from "types/storeType";
 import GamePanelPropType from "./GamePanelPropType";
-import { getRandomRoom, createRoom } from "action";
+import { getRandomRoom, createRoom, setRoom } from "action";
 
 import "./Game.scss";
 
@@ -13,6 +13,7 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 	room,
 	getRandomRoom,
 	createRoom,
+	setRoom,
 }) => {
 	useEffect(() => {
 		if (room) {
@@ -21,10 +22,18 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 	}, [room]);
 
 	const [customRoom, setCustomRoom] = useState<string>("");
+	const [joinRoom, setJoinRoom] = useState<string>("");
 
 	const onCreateSubmit = () => {
 		if (customRoom.length > 0) {
 			createRoom(customRoom);
+		}
+	};
+
+	const onJoinClick = () => {
+		setRoom(joinRoom);
+		if (joinRoom.length > 0) {
+			history.push(`/${joinRoom}`);
 		}
 	};
 
@@ -68,8 +77,18 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 							size="lg"
 							type="text"
 							placeholder="Game Id"
+							value={joinRoom}
+							onChange={(e) => {
+								let val = e.target.value;
+								setJoinRoom(val);
+							}}
 						></FormControl>
-						<Button variant="secondary" className="mt-3" size="lg">
+						<Button
+							variant="secondary"
+							className="mt-3"
+							size="lg"
+							onClick={onJoinClick}
+						>
 							Join
 						</Button>
 					</Col>
@@ -85,6 +104,6 @@ const mapStateToProps = (state: storeType) => {
 	};
 };
 
-export default connect(mapStateToProps, { getRandomRoom, createRoom })(
+export default connect(mapStateToProps, { getRandomRoom, createRoom, setRoom })(
 	GamePanel
 );

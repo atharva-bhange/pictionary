@@ -28,6 +28,7 @@ const Login: React.FC<LoginPropType> = ({ setName }) => {
 				<FormGroup>
 					<FormLabel className="name-label">Name</FormLabel>
 					<FormControl
+						autoFocus
 						size="lg"
 						type="text"
 						ref={nameInput}

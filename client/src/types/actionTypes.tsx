@@ -1,14 +1,15 @@
+import { gameDataType } from "../../../types/data";
 export interface setNameAction {
 	type: "SET_NAME";
 	payload: string | null;
 }
 
-export interface getRandomRoomAction {
-	type: "GET_RANDOM_ROOM";
-	payload: string;
+export interface setRoomAction {
+	type: "SET_ROOM";
+	payload: string | null;
 }
 
-export interface createRoomAction {
-	type: "CREATE_ROOM";
-	payload: string;
+export interface setGameAction {
+	type: "SET_GAME";
+	payload: gameDataType;
 }
