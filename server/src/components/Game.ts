@@ -3,7 +3,7 @@ import Player from "./Player";
 import { Server } from "socket.io";
 
 import Round from "./Round";
-import { gameDataType, canvasDataType } from "../../../types/data";
+import { canvasDataType, gameDataType } from "types/data";
 
 class Game {
 	id: string;

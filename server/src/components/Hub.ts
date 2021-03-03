@@ -1,6 +1,6 @@
 // This class is responsible to storing all the running Games on the server!
 
-import Game from "components/Game";
+import Game from "src/components/Game";
 import Player from "./Player";
 
 class Hub {
