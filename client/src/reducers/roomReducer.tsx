@@ -2,7 +2,7 @@ import { Reducer } from "redux";
 import { roomType } from "types/storeType";
 import { setRoomAction } from "types/actionTypes";
 
-const initialState: roomType = null;
+const initialState: roomType = "aa";
 
 const roomReducer: Reducer<roomType, setRoomAction> = (
 	state = initialState,

@@ -1,0 +1,94 @@
+@import "utils/default.scss";
+
+.colour-swatch {
+	flex-grow: 1;
+	display: flex;
+	margin: 10px;
+	align-items: center;
+	justify-content: space-around;
+
+	.current-colour {
+		height: 78px;
+		flex-basis: 78px;
+		background-color: yellow;
+		border-radius: 5px;
+		border: 1px $DARK dashed;
+	}
+
+	.colour-list {
+		flex-basis: 302px;
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+		border: 1px $DARK dashed;
+		border-radius: 5px;
+
+		&:nth-child(1) {
+			border-top-left-radius: 5px;
+		}
+
+		&:nth-child(10) {
+			border-top-right-radius: 5px;
+		}
+
+		&:nth-child(11) {
+			border-bottom-left-radius: 5px;
+		}
+
+		&:nth-child(20) {
+			border-bottom-right-radius: 5px;
+		}
+
+		.colour-pick {
+			width: 30px;
+			height: 30px;
+		}
+	}
+
+	.thickness {
+		display: flex;
+		align-items: center;
+		height: 80px;
+		.thickness-box {
+			border-radius: 5px;
+			margin: 0.2rem;
+			width: 60px;
+			height: 60px;
+			background-color: $DARK;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.cir {
+				background-color: black;
+				border-radius: 50%;
+			}
+
+			.s8 {
+				height: 8px;
+				width: 8px;
+			}
+
+			.s12 {
+				height: 12px;
+				width: 12px;
+			}
+
+			.s16 {
+				height: 16px;
+				width: 16px;
+			}
+
+			.s20 {
+				height: 20px;
+				width: 20px;
+			}
+		}
+	}
+
+	.clear {
+		.fa-trash-alt {
+			font-size: 50px;
+		}
+	}
+}

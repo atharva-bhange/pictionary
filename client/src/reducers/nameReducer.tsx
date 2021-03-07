@@ -3,7 +3,7 @@ import { Reducer } from "redux";
 import { nameType } from "types/storeType";
 import { setNameAction } from "types/actionTypes";
 
-const initialState: nameType = null;
+const initialState: nameType = "a";
 
 const nameReducer: Reducer<nameType, setNameAction> = (
 	state = initialState,

@@ -1,9 +1,74 @@
-.wrapper {
-	height: 100vh;
-	.chat-box {
-		border: solid black 4px;
+@import "utils/default.scss";
+
+.game-wrapper {
+	height: 100%;
+	padding: 1rem;
+	background-color: $DARK;
+	display: flex;
+	flex-direction: column;
+
+	.row1-container {
+		//flex: 0 1 auto;
+		margin-bottom: 0.5rem;
 	}
-	.cols {
+
+	.row2-container {
+		//flex: 1 1;
+		flex-grow: 1;
+		margin-top: 0.5rem;
+		display: flex;
+		min-height: 0px;
+		.row2 {
+			flex-grow: 1;
+			display: flex;
+		}
+	}
+
+	.white-box {
+		background-color: $LIGHT;
+		border-radius: 10px;
+		box-shadow: 4px 4px 4px #1f3d6d;
 		padding: 0;
+	}
+
+	.title {
+		flex: 2;
+		margin-left: 1rem;
+		margin-right: 0.5rem;
+		display: flex;
+	}
+
+	.controls {
+		flex: 1;
+		margin-left: 0.5rem;
+		margin-right: 1rem;
+		display: flex;
+	}
+
+	.players {
+		flex: 1;
+		margin-right: 0.5rem;
+		display: flex;
+		flex-direction: column;
+	}
+	.canvas-area {
+		flex: 3;
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		.canvas-box {
+			flex: 1 1 auto;
+			margin-bottom: 0.5rem;
+		}
+		.tools {
+			flex: 0 1 100px;
+			margin-top: 0.5rem;
+			display: flex;
+		}
+	}
+	.chat {
+		flex: 1;
+		margin-left: 0.5rem;
 	}
 }

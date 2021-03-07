@@ -1,0 +1,29 @@
+@import "utils/default.scss";
+
+.player-list {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+
+	p {
+		font-size: 1.8rem;
+		text-align: center;
+		// flex: 0 1 auto;
+		margin: 0;
+	}
+
+	.list-box {
+		padding: 0;
+		margin: 0;
+
+		flex-grow: 1;
+		min-height: 0; // %%
+		display: flex; // %%
+
+		.overflow-list {
+			flex: 1; // %%
+			overflow: auto; // %%
+		}
+	}
+}
