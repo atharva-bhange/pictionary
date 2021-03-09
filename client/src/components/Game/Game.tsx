@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import Canvas from "components/Canvas";
+import Canvas from "./Canvas";
 import storeType from "types/storeType";
 import "./Game.scss";
 import GamePropType from "./GamePropType";
@@ -69,7 +69,13 @@ const Game: React.FC<GamePropType> = ({ name, room, setRoom }) => {
 						<Playerlist />
 					</div>
 					<div className="canvas-area">
-						<div className="canvas-box white-box"></div>
+						<div ref={canvasBox} className="canvas-box white-box">
+							<Canvas
+								width={canvasSize.width}
+								height={canvasSize.height}
+								client={client.current}
+							/>
+						</div>
 						<div className="tools white-box">
 							<ColourSwatch />
 						</div>

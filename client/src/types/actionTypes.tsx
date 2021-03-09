@@ -18,3 +18,23 @@ export interface setCanvasAction {
 	type: "SET_CANVAS";
 	payload: canvasDataType;
 }
+
+export interface setIsPaintingAction {
+	type: "SET_IS_PAINTING";
+	payload: boolean;
+}
+
+export interface setPenSizeAction {
+	type: "SET_PEN_SIZE";
+	payload: number;
+}
+
+export interface setPenColorAction {
+	type: "SET_PEN_COLOR";
+	payload: string;
+}
+
+export interface clearCanvasAction {
+	type: "CLEAR_CANVAS";
+	payload: boolean;
+}

@@ -1,19 +1,43 @@
 import { Reducer } from "redux";
-import { canvasDataType } from "../../../types/data";
-import { setCanvasAction } from "types/actionTypes";
+// import { canvasDataType } from "../../../types/data";
+import { canvasDataType } from "types/storeType";
+import {
+	setCanvasAction,
+	setIsPaintingAction,
+	setPenColorAction,
+	setPenSizeAction,
+	clearCanvasAction,
+} from "types/actionTypes";
 
-const initialState = null;
+const initialState: canvasDataType = {
+	isPainting: false,
+	penColor: "#000000",
+	penSize: 8,
+	clear: false,
+};
 
-const canvasReducer: Reducer<canvasDataType | null, setCanvasAction> = (
+type reducerActions =
+	| setCanvasAction
+	| setIsPaintingAction
+	| setPenColorAction
+	| setPenSizeAction
+	| clearCanvasAction;
+
+const canvasReducer: Reducer<canvasDataType, reducerActions> = (
 	state = initialState,
 	action
 ) => {
 	switch (action.type) {
-		case "SET_CANVAS":
-			return { ...action.payload };
+		case "SET_IS_PAINTING":
+			return { ...state, isPainting: action.payload };
+		case "SET_PEN_COLOR":
+			return { ...state, penColor: action.payload };
+		case "SET_PEN_SIZE":
+			return { ...state, penSize: action.payload };
+		case "CLEAR_CANVAS":
+			return { ...state, clear: action.payload };
 		default:
-			if (state) return { ...state };
-			else return null;
+			return { ...state };
 	}
 };
 
