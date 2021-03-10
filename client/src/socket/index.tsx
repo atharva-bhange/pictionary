@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import { setGame, setCanvasData } from "action";
+import { setCanvasData } from "action/canvasActionCreators";
 import store from "utils/storeConfig";
 import { gameDataType, canvasDataType } from "../../../types/data";
 
@@ -19,14 +19,18 @@ export class Client {
 			console.log("Disconnected from server");
 		});
 		this.socket.on("start-round", (game: gameDataType) => {
-			store.dispatch(setGame(game));
+			const newGame = game as any;
 			if (game.round.drawer === store.getState().name) {
 				// this player is the drawer
+				newGame.round.isDrawer = true;
 			} else {
+				newGame.round.isDrawer = false;
+				newGame.round.word = null;
 				this.socket.on("incoming-drawing-data", (data: canvasDataType) =>
 					store.dispatch(setCanvasData(data))
 				);
 			}
+			store.dispatch({ type: "SET_GAME", payload: newGame });
 		});
 	}
 	joinGame(name: string, gameId: string) {

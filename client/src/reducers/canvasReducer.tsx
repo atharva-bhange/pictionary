@@ -1,12 +1,13 @@
 import { Reducer } from "redux";
-// import { canvasDataType } from "../../../types/data";
-import { canvasDataType } from "types/storeType";
+import { canvasDataType } from "../../../types/data";
 import {
 	setCanvasAction,
 	setIsPaintingAction,
 	setPenColorAction,
 	setPenSizeAction,
 	clearCanvasAction,
+	setIsFinishedAction,
+	setCoordinateAction,
 } from "types/actionTypes";
 
 const initialState: canvasDataType = {
@@ -14,6 +15,9 @@ const initialState: canvasDataType = {
 	penColor: "#000000",
 	penSize: 8,
 	clear: false,
+	isFinished: true,
+	xCor: 0,
+	yCor: 0,
 };
 
 type reducerActions =
@@ -21,7 +25,9 @@ type reducerActions =
 	| setIsPaintingAction
 	| setPenColorAction
 	| setPenSizeAction
-	| clearCanvasAction;
+	| clearCanvasAction
+	| setIsFinishedAction
+	| setCoordinateAction;
 
 const canvasReducer: Reducer<canvasDataType, reducerActions> = (
 	state = initialState,
@@ -36,6 +42,12 @@ const canvasReducer: Reducer<canvasDataType, reducerActions> = (
 			return { ...state, penSize: action.payload };
 		case "CLEAR_CANVAS":
 			return { ...state, clear: action.payload };
+		case "SET_IS_FINISHED":
+			return { ...state, isFinished: action.payload };
+		case "SET_COORDINATE":
+			return { ...state, xCor: action.x, yCor: action.y };
+		case "SET_CANVAS":
+			return { ...action.payload };
 		default:
 			return { ...state };
 	}

@@ -1,4 +1,4 @@
-import { canvasDataType } from "types/storeType";
+import { canvasDataType } from "../../../../../types/data";
 import {
 	setPenSizeActionCreatorType,
 	setPenColorActionCreatorType,

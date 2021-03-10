@@ -3,6 +3,9 @@ import {
 	setPenColorActionCreatorType,
 	setPenSizeActionCreatorType,
 	clearCanvassActionCreatorType,
+	setIsFinishedActionCreatorType,
+	setCanvasDataActionCreator,
+	setCoordinateActionCreatorType,
 } from "types/actionCreatorTypes";
 
 export const setIsPainting: setIsPaintingActionCreatorType = (val) => {
@@ -30,5 +33,27 @@ export const clearCanvas: clearCanvassActionCreatorType = (value = true) => {
 	return {
 		type: "CLEAR_CANVAS",
 		payload: value,
+	};
+};
+
+export const setIsFinished: setIsFinishedActionCreatorType = (value) => {
+	return {
+		type: "SET_IS_FINISHED",
+		payload: value,
+	};
+};
+
+export const setCanvasData: setCanvasDataActionCreator = (data) => {
+	return {
+		type: "SET_CANVAS",
+		payload: data,
+	};
+};
+
+export const setCoordinate: setCoordinateActionCreatorType = (x, y) => {
+	return {
+		type: "SET_COORDINATE",
+		x,
+		y,
 	};
 };

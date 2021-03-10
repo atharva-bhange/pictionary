@@ -2,7 +2,8 @@ export interface gameDataType {
 	id: string;
 	players: string[];
 	round: {
-		word?: string;
+		id: number;
+		word: string;
 		drawer: string;
 	};
 }
@@ -13,4 +14,6 @@ export interface canvasDataType {
 	xCor: number;
 	yCor: number;
 	isFinished: boolean;
+	isPainting: boolean;
+	clear: boolean;
 }

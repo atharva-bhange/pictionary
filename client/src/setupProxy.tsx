@@ -2,7 +2,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 const func = (app: any) => {
 	const socketProxy = createProxyMiddleware("/socket", {
-		target: "http://localhost:4000",
+		target: "http://192.168.1.149:4000",
 		changeOrigin: true,
 		ws: true,
 		logLevel: "debug",

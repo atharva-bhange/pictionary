@@ -1,8 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import "./Title.scss";
+import TitlePropType from "./TitlePropType";
+import storeType from "types/storeType";
 
-const Title: React.FC = () => {
+const Title: React.FC<TitlePropType> = ({ gameData }) => {
 	const word = "Apple";
 
 	const renderBlankWord = (wrd: string) => {
@@ -14,13 +17,29 @@ const Title: React.FC = () => {
 		return divs;
 	};
 
+	const renderStatus = () => {
+		if (!gameData) return;
+		return gameData.round.isDrawer ? "You Are Drawing" : "Guess!";
+	};
+
+	const renderRound = () => {
+		if (!gameData) return;
+		return gameData.round.id.toString();
+	};
+
 	return (
 		<div className="title-box">
-			<div className="status">You Are Drawing</div>
-			<div className="round">1</div>
+			<div className="status">{renderStatus()}</div>
+			<div className="round">{renderRound()}</div>
 			<div className="word">{renderBlankWord(word)}</div>
 		</div>
 	);
 };
 
-export default Title;
+const mapStateToProps = (state: storeType) => {
+	return {
+		gameData: state.game,
+	};
+};
+
+export default connect(mapStateToProps)(Title);

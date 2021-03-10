@@ -1,4 +1,5 @@
-import { gameDataType, canvasDataType } from "../../../types/data";
+import { gameDataType } from "types/storeType";
+import { canvasDataType } from "../../../types/data";
 export interface setNameAction {
 	type: "SET_NAME";
 	payload: string | null;
@@ -37,4 +38,15 @@ export interface setPenColorAction {
 export interface clearCanvasAction {
 	type: "CLEAR_CANVAS";
 	payload: boolean;
+}
+
+export interface setIsFinishedAction {
+	type: "SET_IS_FINISHED";
+	payload: boolean;
+}
+
+export interface setCoordinateAction {
+	type: "SET_COORDINATE";
+	x: number;
+	y: number;
 }

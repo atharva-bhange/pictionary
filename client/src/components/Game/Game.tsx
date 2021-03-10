@@ -16,7 +16,7 @@ import Controls from "./Controls";
 import Title from "./Title";
 import ColourSwatch from "./ColourSwatch";
 
-const Game: React.FC<GamePropType> = ({ name, room, setRoom }) => {
+const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 	const canvasBox = useRef<HTMLDivElement>(null);
 	const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 	const client = useRef<Client | null>(null);
@@ -76,7 +76,16 @@ const Game: React.FC<GamePropType> = ({ name, room, setRoom }) => {
 								client={client.current}
 							/>
 						</div>
-						<div className="tools white-box">
+						<div
+							className="tools white-box"
+							style={
+								gameData
+									? !gameData.round.isDrawer
+										? { opacity: 0 }
+										: {}
+									: { opacity: 0 }
+							}
+						>
 							<ColourSwatch />
 						</div>
 					</div>
@@ -93,6 +102,7 @@ const mapStateToProps = (state: storeType) => {
 	return {
 		room: state.room,
 		name: state.name,
+		gameData: state.game,
 	};
 };
 

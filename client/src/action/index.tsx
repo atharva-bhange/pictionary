@@ -5,8 +5,8 @@ import {
 	createRoomActionCreatorType,
 	setRoomActionCreatorType,
 	setGameActionCreatorType,
-	setCanvasDataActionCreator,
 } from "types/actionCreatorTypes";
+import { gameDataType } from "types/storeType";
 import apiHandler from "utils/apiHandler";
 
 export const setName: setNameActionCreatorType = (name) => {
@@ -62,16 +62,36 @@ export const createRoom = (newRoom: string): createRoomActionCreatorType => (
 		.call();
 };
 
-export const setGame: setGameActionCreatorType = (game) => {
-	return {
-		type: "SET_GAME",
-		payload: game,
-	};
-};
-
-export const setCanvasData: setCanvasDataActionCreator = (data) => {
-	return {
-		type: "SET_CANVAS",
-		payload: data,
-	};
-};
+// export const setGame: setGameActionCreatorType = (game) => (
+// 	dispatch,
+// 	getState
+// ) => {
+// 	const name = getState().name;
+// 	if (name === game.round.drawer) {
+// 		dispatch({
+// 			type: "SET_GAME",
+// 			payload: {
+// 				id: game.id,
+// 				players: game.players,
+// 				round: {
+// 					drawer: game.round.drawer,
+// 					isDrawer: true,
+// 					word: game.round.word,
+// 				},
+// 			},
+// 		});
+// 	} else {
+// 		dispatch({
+// 			type: "SET_GAME",
+// 			payload: {
+// 				id: game.id,
+// 				players: game.players,
+// 				round: {
+// 					drawer: game.round.drawer,
+// 					isDrawer: false,
+// 					word: null,
+// 				},
+// 			},
+// 		});
+// 	}
+// };
