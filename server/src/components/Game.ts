@@ -11,6 +11,7 @@ class Game {
 	roundCount: number;
 	rounds: Round[] = [];
 	currentRoundId: number = 1;
+	private _started = false;
 	private _midRoundTime = 5000;
 
 	constructor(id: string) {
@@ -21,9 +22,32 @@ class Game {
 		}
 	}
 
-	join = (newPlayer: Player) => {
+	join = (newPlayer: Player, io: Server) => {
 		this.players.push(newPlayer);
+
+		this.sendPlayers(io);
+
+		// start game if 4 players are present
+		if (this.players.length >= 3 && !this.isStarted()) {
+			this.start(io);
+		}
+
+		if (this.isStarted()) {
+			const currentRound = this.rounds[this.currentRoundId - 1]; // subtracting 1 to use as array index
+			const players = this.players.map((player) => player.name);
+			const gameData: gameDataType = {
+				id: this.id,
+				players: players,
+				round: {
+					word: currentRound.word,
+					drawer: currentRound.drawerPlayer?.name as string,
+					id: currentRound.id,
+				},
+			};
+			newPlayer.socket.emit("start-round", gameData);
+		}
 	};
+
 	leave = (player: Player) => {
 		this.players = this.players.filter((pl) => pl !== player);
 	};
@@ -33,11 +57,12 @@ class Game {
 	}
 
 	sendPlayers(io: Server) {
+		console.log("sending players");
 		const players = this.players.map((player) => player.name);
 		io.to(this.id).emit("players-update", players);
 	}
 
-	startRound = (io: Server) => {
+	private _startRound = (io: Server) => {
 		const currentRound = this.rounds[this.currentRoundId - 1]; // subtracting 1 to use as array index
 		const players = this.players.map((player) => player.name);
 		currentRound.drawer(
@@ -68,14 +93,23 @@ class Game {
 	stopRound = (io: Server) => {
 		setTimeout(() => {
 			if (this.currentRoundId === this.roundCount) {
-				this.stopGame();
+				this.stop();
 				return;
 			} else this.currentRoundId += 1;
-			this.startRound(io);
+			this._startRound(io);
 		}, this._midRoundTime);
 	};
 
-	stopGame = () => {};
+	stop = () => {};
+
+	start = (io: Server) => {
+		this._startRound(io);
+		this._started = true;
+	};
+
+	isStarted = () => {
+		return this._started;
+	};
 }
 
 export default Game;

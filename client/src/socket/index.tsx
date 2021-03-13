@@ -37,6 +37,7 @@ export class Client {
 			store.dispatch({ type: "SET_GAME", payload: newGame });
 		});
 		this.socket.on("players-update", (data: playerType) => {
+			console.log("got players");
 			store.dispatch(setPlayer(data));
 		});
 

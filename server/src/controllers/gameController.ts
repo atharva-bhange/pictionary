@@ -18,18 +18,11 @@ export const joinGame = (io: Server, socket: Socket, hub: Hub, data: any) => {
 		game = new Game(gameId);
 		hub.addGame(game);
 	}
-	game.join(player);
+	socket.join(gameId);
+	game.join(player, io);
 	console.log(hub.getGames());
 
-	socket.join(gameId);
-
 	hub.addPlayer(player, gameId);
-	game.sendPlayers(io);
-
-	// start game if 4 players are present
-	if (game.players.length >= 2) {
-		game.startRound(io);
-	}
 };
 
 export const disconnectGame = (hub: Hub, socket: Socket) => {

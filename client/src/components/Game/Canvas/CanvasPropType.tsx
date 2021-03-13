@@ -1,4 +1,5 @@
 import { canvasDataType } from "../../../../../types/data";
+import { gameDataType } from "types/storeType";
 import {
 	setIsPaintingActionCreatorType,
 	setPenSizeActionCreatorType,
