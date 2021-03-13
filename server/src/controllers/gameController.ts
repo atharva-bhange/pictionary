@@ -4,6 +4,7 @@ import Player from "../components/Player";
 import { Server, Socket } from "socket.io";
 
 export const joinGame = (io: Server, socket: Socket, hub: Hub, data: any) => {
+	console.log("joining game");
 	const { name, gameId } = data;
 
 	// create player
@@ -23,6 +24,7 @@ export const joinGame = (io: Server, socket: Socket, hub: Hub, data: any) => {
 	socket.join(gameId);
 
 	hub.addPlayer(player, gameId);
+	game.sendPlayers(io);
 
 	// start game if 4 players are present
 	if (game.players.length >= 2) {
@@ -31,10 +33,12 @@ export const joinGame = (io: Server, socket: Socket, hub: Hub, data: any) => {
 };
 
 export const disconnectGame = (hub: Hub, socket: Socket) => {
-	const { gameId, player } = hub.getPlayer(socket.id);
-	hub.deletePlayer(player);
-	hub.getGame(gameId).leave(player);
-	if (hub.getGame(gameId).playerCount() === 0) {
-		hub.deleteGame(gameId);
+	if (hub.isPlayer(socket.id)) {
+		const { gameId, player } = hub.getPlayer(socket.id);
+		hub.deletePlayer(player);
+		hub.getGame(gameId).leave(player);
+		if (hub.getGame(gameId).playerCount() === 0) {
+			hub.deleteGame(gameId);
+		}
 	}
 };

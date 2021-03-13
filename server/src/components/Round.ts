@@ -1,9 +1,12 @@
+import { Server } from "socket.io";
 import Player from "./Player";
 
 class Round {
 	id: number;
 	word: string;
 	drawerPlayer: Player | null;
+	private _seconds: number;
+	private _startTime = 0.5 * 60;
 	words = [
 		"Angel",
 		"Eyeball",
@@ -15,24 +18,19 @@ class Round {
 		"Flower",
 		"Rainbow",
 		"Beard",
-		"Flying saucer",
 		"Recycle",
 		"Bible",
 		"Giraffe",
-		"Sand castle",
 		"Glasses",
 		"Snowflake",
 		"Book",
-		"High heel",
 		"Stairs",
 		"Bucket",
-		"Ice cream cone",
 		"Starfish",
 		"Bumble bee",
 		"Igloo",
 		"Strawberry",
 		"Butterfly",
-		"Lady bug",
 		"Sun",
 		"Camera",
 		"Lamp",
@@ -52,7 +50,6 @@ class Round {
 		"Egg",
 		"Olympics",
 		"Volleyball",
-		"Eiffel Tower",
 		"Peanut",
 	];
 
@@ -60,11 +57,51 @@ class Round {
 		this.id = id;
 		this.drawerPlayer = null;
 		this.word = this.words[Math.floor(Math.random() * this.words.length)];
+		this._seconds = this._startTime;
 	}
 
 	drawer(player: Player) {
 		this.drawerPlayer = player;
 	}
+
+	startTimmer = (io: Server, gameId: string, onStopCallback: Function) => {
+		const intervalId: any = setInterval(
+			() => this._updateTime(io, gameId, onStopCallback, intervalId),
+			1000
+		);
+	};
+
+	private _updateTime = (
+		io: Server,
+		gameId: string,
+		onStopCallback: Function,
+		intervalId: NodeJS.Timeout
+	) => {
+		const minutes = Math.floor(this._seconds / 60);
+		const seconds = this._seconds % 60;
+
+		this._sendTimmerData(minutes, seconds, io, gameId);
+
+		this._seconds--;
+		if (this._seconds < 0) {
+			this._stopTimmer(intervalId);
+			onStopCallback();
+		}
+	};
+
+	private _stopTimmer = (intervalId: NodeJS.Timeout) => {
+		clearInterval(intervalId);
+	};
+
+	private _sendTimmerData = (
+		minutes: number,
+		seconds: number,
+		io: Server,
+		gameId: string
+	) => {
+		console.log("sending time data");
+		io.to(gameId).emit("timer-data", { minutes, seconds });
+	};
 }
 
 export default Round;

@@ -11,6 +11,7 @@ class Game {
 	roundCount: number;
 	rounds: Round[] = [];
 	currentRoundId: number = 1;
+	private _midRoundTime = 5000;
 
 	constructor(id: string) {
 		this.id = id;
@@ -31,8 +32,13 @@ class Game {
 		return this.players.length;
 	}
 
+	sendPlayers(io: Server) {
+		const players = this.players.map((player) => player.name);
+		io.to(this.id).emit("players-update", players);
+	}
+
 	startRound = (io: Server) => {
-		const currentRound = this.rounds[this.currentRoundId];
+		const currentRound = this.rounds[this.currentRoundId - 1]; // subtracting 1 to use as array index
 		const players = this.players.map((player) => player.name);
 		currentRound.drawer(
 			this.players[Math.floor(Math.random() * this.players.length)]
@@ -44,20 +50,32 @@ class Game {
 			round: {
 				word: currentRound.word,
 				drawer: currentRound.drawerPlayer?.name as string,
+				id: currentRound.id,
 			},
 		};
 
 		io.to(this.id).emit("start-round", gameData);
 
-		currentRound.drawerPlayer?.socket.on(
-			"drawing-data",
-			(data: canvasDataType) => {
-				currentRound.drawerPlayer?.socket
-					.to(this.id)
-					.emit("incoming-drawing-data", data);
-			}
-		);
+		currentRound.startTimmer(io, this.id, () => this.stopRound(io));
+
+		currentRound.drawerPlayer?.socket.on("drawing-data", (data) => {
+			currentRound.drawerPlayer?.socket
+				.to(this.id)
+				.emit("incoming-drawing-data", data);
+		});
 	};
+
+	stopRound = (io: Server) => {
+		setTimeout(() => {
+			if (this.currentRoundId === this.roundCount) {
+				this.stopGame();
+				return;
+			} else this.currentRoundId += 1;
+			this.startRound(io);
+		}, this._midRoundTime);
+	};
+
+	stopGame = () => {};
 }
 
 export default Game;

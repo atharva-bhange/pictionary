@@ -42,6 +42,10 @@ class Hub {
 		if (gameId in this.games) return true;
 		else return false;
 	}
+	isPlayer(playerId: string) {
+		if (playerId in this.players) return true;
+		else return false;
+	}
 	getPlayer(playerId: string) {
 		return this.players[playerId];
 	}
