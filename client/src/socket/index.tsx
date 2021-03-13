@@ -2,11 +2,14 @@ import { io, Socket } from "socket.io-client";
 import { setCanvasData } from "action/canvasActionCreators";
 import store from "utils/storeConfig";
 import { gameDataType, canvasDataType } from "../../../types/data";
+import { setPlayer, setTime } from "action/gameActionCreators";
+import { playerType, timerType } from "types/storeType";
+import watch from "redux-watch";
+import equal from "deep-equal";
 
 export class Client {
-	socket: Socket;
-
-	constructor() {
+	socket: Socket | null = null;
+	connect() {
 		console.log("conecting");
 		this.socket = io("/", {
 			transports: ["websocket"],
@@ -25,18 +28,37 @@ export class Client {
 				newGame.round.isDrawer = true;
 			} else {
 				newGame.round.isDrawer = false;
-				newGame.round.word = null;
-				this.socket.on("incoming-drawing-data", (data: canvasDataType) =>
-					store.dispatch(setCanvasData(data))
-				);
+				this.socket?.on("incoming-drawing-data", (data: canvasDataType) => {
+					//console.log("getting canvas data");
+					store.dispatch(setCanvasData(data));
+				});
 			}
+			newGame.isStarted = true;
 			store.dispatch({ type: "SET_GAME", payload: newGame });
 		});
+		this.socket.on("players-update", (data: playerType) => {
+			store.dispatch(setPlayer(data));
+		});
+
+		this.socket.on("timer-data", (data: timerType) => {
+			store.dispatch(setTime(data.minutes, data.seconds));
+		});
+
+		let canvasWatcher = watch(store.getState, "canvas", equal);
+		store.subscribe(canvasWatcher((newVal) => this._sendDrawingData(newVal)));
 	}
 	joinGame(name: string, gameId: string) {
-		this.socket.emit("join-game", { gameId, name });
+		this.socket?.emit("join-game", { gameId, name });
 	}
-	sendDrawingData(drawingData: canvasDataType) {
-		this.socket.emit("drawing-data", drawingData);
+	_sendDrawingData = (newVal: any) => {
+		if (store.getState().game.round === null) return;
+		if (store.getState().game.round?.isDrawer) {
+			//console.log("sending data", this);
+			this.socket?.emit("drawing-data", newVal);
+		}
+	};
+
+	disconnect() {
+		this.socket?.disconnect();
 	}
 }

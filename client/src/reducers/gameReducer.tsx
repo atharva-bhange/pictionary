@@ -1,19 +1,40 @@
 import { Reducer } from "redux";
-import { setGameAction } from "types/actionTypes";
+import {
+	setGameAction,
+	setPlayersAction,
+	setTimeAction,
+} from "types/actionTypes";
 import { gameDataType } from "types/storeType";
 
-const initialState: gameDataType = null;
+const initialState: gameDataType = {
+	isStarted: false,
+	isFinished: false,
+	id: null,
+	round: null,
+	players: [],
+	timer: {
+		minutes: 0,
+		seconds: 0,
+	},
+};
 
-const gameReducer: Reducer<gameDataType, setGameAction> = (
+type reducerActions = setGameAction | setPlayersAction | setTimeAction;
+
+const gameReducer: Reducer<gameDataType, reducerActions> = (
 	state = initialState,
 	action
 ) => {
 	switch (action.type) {
 		case "SET_GAME":
-			if (!action.payload) return action.payload;
-			return { ...action.payload };
+			return { ...state, ...action.payload };
+		case "SET_PLAYERS":
+			return { ...state, players: action.players };
+		case "SET_TIME":
+			return {
+				...state,
+				timer: { minutes: action.minutes, seconds: action.seconds },
+			};
 		default:
-			if (!state) return state;
 			return { ...state };
 	}
 };

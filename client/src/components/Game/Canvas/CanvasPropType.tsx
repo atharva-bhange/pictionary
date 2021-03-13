@@ -15,7 +15,6 @@ interface CanvasPropType {
 	canvasData: canvasDataType;
 	gameData: gameDataType;
 	name: nameType;
-	client: Client | null;
 	setIsPainting: setIsPaintingActionCreatorType;
 	setPenSize: setPenSizeActionCreatorType;
 	clearCanvas: clearCanvassActionCreatorType;

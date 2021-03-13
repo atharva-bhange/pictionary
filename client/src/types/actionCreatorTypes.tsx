@@ -10,6 +10,8 @@ import {
 	clearCanvasAction,
 	setIsFinishedAction,
 	setCoordinateAction,
+	setPlayersAction,
+	setTimeAction,
 } from "./actionTypes";
 import storeType from "types/storeType";
 import { canvasDataType, gameDataType } from "../../../types/data";
@@ -60,3 +62,12 @@ export type setCoordinateActionCreatorType = (
 	x: number,
 	y: number
 ) => setCoordinateAction;
+
+export type setPlayersActionCreatorType = (
+	players: string[]
+) => setPlayersAction;
+
+export type setTimeActionCreatorType = (
+	minutes: number,
+	seconds: number
+) => setTimeAction;

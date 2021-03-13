@@ -18,7 +18,6 @@ const Canvas: React.FC<CanvasPropType> = ({
 	canvasData,
 	gameData,
 	name,
-	client,
 	setIsPainting,
 	setPenSize,
 	clearCanvas,
@@ -39,7 +38,8 @@ const Canvas: React.FC<CanvasPropType> = ({
 			context.current.clearRect(0, 0, width, height);
 			clearCanvas(false);
 		}
-		if (canvasData.isPainting && canvas.current && context.current && client) {
+		if (canvasData.isPainting && canvas.current && context.current) {
+			console.log("painting", canvasData.xCor, canvasData.yCor);
 			const rect = canvas.current.getBoundingClientRect();
 			let x_cor = canvasData.xCor - rect.left;
 			let y_cor = canvasData.yCor - rect.top;
@@ -53,37 +53,35 @@ const Canvas: React.FC<CanvasPropType> = ({
 			ctx.moveTo(x_cor, y_cor);
 		}
 		if (canvasData.isFinished && context.current) {
+			console.log("begining new path ");
 			context.current.beginPath();
+			setIsFinished(false);
 		}
-	});
-
-	useEffect(() => {
-		if (gameData)
-			if (gameData.round.isDrawer) client?.sendDrawingData(canvasData);
-	}, [canvasData, client, gameData]);
+	}, [canvasData, clearCanvas, height, width, setIsFinished]);
 
 	const startPosition = (
 		e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
 	) => {
-		if (!gameData?.round.isDrawer) return;
+		if (gameData.round) if (!gameData.round.isDrawer) return;
+		setCoordinate(e.clientX, e.clientY);
 		setIsPainting(true);
 		setIsFinished(false);
-		setCoordinate(e.clientX, e.clientY);
 	};
 
 	const finishPosition = () => {
-		if (!gameData?.round.isDrawer) return;
+		if (gameData.round) if (!gameData.round.isDrawer) return;
 		setIsPainting(false);
 		setIsFinished(true);
 	};
 
 	const draw = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-		if (!gameData?.round.isDrawer || !canvasData.isPainting) return;
+		if (gameData.round)
+			if (!gameData.round.isDrawer || !canvasData.isPainting) return;
 		setCoordinate(e.clientX, e.clientY);
 	};
 
 	const changeSize = (e: React.WheelEvent<HTMLCanvasElement>) => {
-		if (!gameData?.round.isDrawer) return;
+		if (gameData.round) if (!gameData.round.isDrawer) return;
 		if (e.deltaY < 0) {
 			// wheel moving up
 			const newPenSize =
@@ -101,20 +99,20 @@ const Canvas: React.FC<CanvasPropType> = ({
 			width={width}
 			height={height}
 			onMouseDown={(e) => {
-				if (!gameData) return;
+				if (!gameData.isStarted) return;
 				startPosition(e);
 			}}
 			onMouseUp={(e) => {
-				if (!gameData) return;
+				if (!gameData.isStarted) return;
 				finishPosition();
 			}}
 			onMouseMove={(e) => {
-				if (!gameData) return;
+				if (!gameData.isStarted) return;
 				draw(e);
 			}}
 			ref={canvas}
 			onWheel={(e) => {
-				if (!gameData) return;
+				if (!gameData.isStarted) return;
 				changeSize(e);
 			}}
 		></canvas>

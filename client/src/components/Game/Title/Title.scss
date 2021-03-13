@@ -9,22 +9,28 @@
 	padding-right: 2rem;
 	.status {
 		font-size: 2rem;
-		flex-basis: 30%;
+		flex-basis: 20ch;
 	}
 	.round {
-		font-size: 2rem;
-		background-color: $DARK;
-		width: 3rem;
-		height: 3rem;
-		text-align: center;
-		border-radius: 50%;
-		color: $LIGHT;
-		text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-		padding: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.cir {
+			font-size: 2rem;
+			background-color: $DARK;
+			width: 3rem;
+			height: 3rem;
+			text-align: center;
+			border-radius: 50%;
+			color: $LIGHT;
+			text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			padding: 0;
+		}
 	}
 
 	.word {
 		display: flex;
+		font-size: 2rem;
 
 		.underline {
 			font-size: 2rem;

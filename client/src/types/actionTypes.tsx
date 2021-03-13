@@ -50,3 +50,14 @@ export interface setCoordinateAction {
 	x: number;
 	y: number;
 }
+
+export interface setPlayersAction {
+	type: "SET_PLAYERS";
+	players: string[];
+}
+
+export interface setTimeAction {
+	type: "SET_TIME";
+	minutes: number;
+	seconds: number;
+}

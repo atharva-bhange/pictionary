@@ -8,13 +8,18 @@ import storeType from "types/storeType";
 
 const Playerlist: React.FC<PlayerlistPropType> = ({ gameData }) => {
 	const renderList = () => {
-		if (!gameData) return;
-		const drawer = gameData.round.drawer;
-		return gameData.players.map((playerName, index) => (
-			<PlayerItem drawer={playerName === drawer ? true : false}>
-				{playerName}
-			</PlayerItem>
-		));
+		if (gameData.isStarted && gameData.round) {
+			const drawer = gameData.round.drawer;
+			return gameData.players.map((playerName, index) => (
+				<PlayerItem key={index} drawer={playerName === drawer ? true : false}>
+					{playerName}
+				</PlayerItem>
+			));
+		} else {
+			return gameData.players.map((playerName, index) => (
+				<PlayerItem key={index}>{playerName}</PlayerItem>
+			));
+		}
 	};
 
 	return (

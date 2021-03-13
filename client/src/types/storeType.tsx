@@ -9,17 +9,26 @@ export type roomType = string | null;
 // 	clear: boolean;
 // 	isFinished: boolean;
 // };
+export type timerType = {
+	minutes: number;
+	seconds: number;
+};
+
+export type playerType = string[];
 
 export type gameDataType = {
-	id: string;
-	players: string[];
+	id: string | null;
+	isStarted: boolean;
+	isFinished: boolean;
+	players: playerType;
 	round: {
 		isDrawer: boolean;
-		word: string | null;
+		word: string;
 		drawer: string;
 		id: number;
-	};
-} | null;
+	} | null;
+	timer: timerType;
+};
 
 interface storeType {
 	name: nameType;

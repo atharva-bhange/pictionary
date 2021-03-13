@@ -8,18 +8,18 @@ import storeType from "types/storeType";
 import "./Game.scss";
 import GamePropType from "./GamePropType";
 import { setRoom } from "action";
-import { Client } from "socket";
+import socketHandler from "utils/socketHandler";
 import history from "utils/history";
 import Chatbox from "./Chatbox";
 import Playerlist from "./Playerlist";
 import Controls from "./Controls";
 import Title from "./Title";
 import ColourSwatch from "./ColourSwatch";
+import Timer from "./Timer";
 
 const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 	const canvasBox = useRef<HTMLDivElement>(null);
 	const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
-	const client = useRef<Client | null>(null);
 
 	// const params = useParams<any>();
 
@@ -32,15 +32,15 @@ const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 		}
 
 		if (name && room) {
-			client.current = new Client();
-			client.current.joinGame(name, room);
+			socketHandler.connect();
+			socketHandler.joinGame(name, room);
 		} else history.push("/");
 	}, [name, room]);
 
 	useEffect(
 		() => () => {
 			// disconnecting on component unmount
-			if (client.current) client.current.socket.disconnect();
+			socketHandler.disconnect();
 		},
 		[]
 	);
@@ -51,17 +51,30 @@ const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 	// 	}
 	// }, [room, params, setRoom]);
 
+	const setColorSwatchOpacity = () => {
+		if (gameData.isStarted && gameData.round) {
+			if (gameData.round.isDrawer) return { opacity: 1 };
+		}
+		return { opacity: 0 };
+	};
+
 	return (
 		<Container fluid className="game-wrapper">
 			<div className="row1-container">
-				<Row className="row1">
-					<Col className="title white-box">
+				<div className="row1">
+					<div className="title white-box">
 						<Title />
-					</Col>
-					<Col className="controls white-box">
+					</div>
+					<div className="timer white-box">
+						<Timer
+							minutes={gameData.timer.minutes}
+							seconds={gameData.timer.seconds}
+						/>
+					</div>
+					<div className="controls white-box">
 						<Controls />
-					</Col>
-				</Row>
+					</div>
+				</div>
 			</div>
 			<div className="row2-container">
 				<div className="row2">
@@ -70,22 +83,9 @@ const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 					</div>
 					<div className="canvas-area">
 						<div ref={canvasBox} className="canvas-box white-box">
-							<Canvas
-								width={canvasSize.width}
-								height={canvasSize.height}
-								client={client.current}
-							/>
+							<Canvas width={canvasSize.width} height={canvasSize.height} />
 						</div>
-						<div
-							className="tools white-box"
-							style={
-								gameData
-									? !gameData.round.isDrawer
-										? { opacity: 0 }
-										: {}
-									: { opacity: 0 }
-							}
-						>
+						<div className="tools white-box" style={setColorSwatchOpacity()}>
 							<ColourSwatch />
 						</div>
 					</div>

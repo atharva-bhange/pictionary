@@ -1,0 +1,11 @@
+@import "utils/default.scss";
+
+.timer-box {
+	flex-grow: 1;
+	text-align: center;
+	font-size: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 700;
+}
