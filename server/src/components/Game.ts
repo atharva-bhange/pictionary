@@ -3,6 +3,7 @@ import Player from "./Player";
 import { Server } from "socket.io";
 
 import Round from "./Round";
+import Chat from "./Chat";
 import { canvasDataType, gameDataType } from "types/data";
 
 class Game {
@@ -13,6 +14,7 @@ class Game {
 	currentRoundId: number = 1;
 	private _started = false;
 	private _midRoundTime = 5000;
+	private _chat: Chat;
 
 	constructor(id: string) {
 		this.id = id;
@@ -20,6 +22,7 @@ class Game {
 		for (let i = 1; i <= 3; i++) {
 			this.rounds.push(new Round(i));
 		}
+		this._chat = new Chat(this.id);
 	}
 
 	join = (newPlayer: Player, io: Server) => {
@@ -46,6 +49,8 @@ class Game {
 			};
 			newPlayer.socket.emit("start-round", gameData);
 		}
+
+		this._chat.enablePlayerChat(newPlayer, io);
 	};
 
 	leave = (player: Player) => {
@@ -64,7 +69,9 @@ class Game {
 
 	private _startRound = (io: Server) => {
 		const currentRound = this.rounds[this.currentRoundId - 1]; // subtracting 1 to use as array index
+		this._chat.changeWord(currentRound.word);
 		const players = this.players.map((player) => player.name);
+		// setting the drawer
 		currentRound.drawer(
 			this.players[Math.floor(Math.random() * this.players.length)]
 		);

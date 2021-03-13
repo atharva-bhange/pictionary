@@ -7,7 +7,7 @@ class Round {
 	drawerPlayer: Player | null;
 	private _seconds: number;
 	private _startTime = 0.5 * 60;
-	words = [
+	private _words = [
 		"Angel",
 		"Eyeball",
 		"Pizza",
@@ -56,7 +56,7 @@ class Round {
 	constructor(id: number) {
 		this.id = id;
 		this.drawerPlayer = null;
-		this.word = this.words[Math.floor(Math.random() * this.words.length)];
+		this.word = this._words[Math.floor(Math.random() * this._words.length)];
 		this._seconds = this._startTime;
 	}
 
