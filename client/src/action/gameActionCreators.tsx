@@ -1,6 +1,8 @@
 import {
 	setPlayersActionCreatorType,
 	setTimeActionCreatorType,
+	addChatActionCreatorType,
+	clearChatActionCreatorType,
 } from "types/actionCreatorTypes";
 
 export const setPlayer: setPlayersActionCreatorType = (players) => {
@@ -15,5 +17,26 @@ export const setTime: setTimeActionCreatorType = (minutes, seconds) => {
 		type: "SET_TIME",
 		minutes,
 		seconds,
+	};
+};
+
+export const addChat: addChatActionCreatorType = (
+	sender,
+	isGuessed,
+	message
+) => {
+	return {
+		type: "ADD_CHAT",
+		payload: {
+			isGuessed,
+			message,
+			sender,
+		},
+	};
+};
+
+export const clearChat: clearChatActionCreatorType = () => {
+	return {
+		type: "CLEAR_CHAT",
 	};
 };

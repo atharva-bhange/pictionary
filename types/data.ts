@@ -17,3 +17,14 @@ export interface canvasDataType {
 	isPainting: boolean;
 	clear: boolean;
 }
+
+export interface clientMessageDataType {
+	name: string;
+	message: string;
+}
+
+export interface serverMessageResponseDataType {
+	sender: string;
+	isGuessed: boolean;
+	message: string | null;
+}

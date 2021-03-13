@@ -12,6 +12,8 @@ import {
 	setCoordinateAction,
 	setPlayersAction,
 	setTimeAction,
+	addChatAction,
+	clearChatAction,
 } from "./actionTypes";
 import storeType from "types/storeType";
 import { canvasDataType, gameDataType } from "../../../types/data";
@@ -71,3 +73,11 @@ export type setTimeActionCreatorType = (
 	minutes: number,
 	seconds: number
 ) => setTimeAction;
+
+export type addChatActionCreatorType = (
+	sender: string,
+	isGuessed: boolean,
+	message: string | null
+) => addChatAction;
+
+export type clearChatActionCreatorType = () => clearChatAction;

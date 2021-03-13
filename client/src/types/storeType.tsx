@@ -9,6 +9,12 @@ export type timerType = {
 
 export type playerType = string[];
 
+export interface chat {
+	sender: string;
+	isGuessed: boolean;
+	message: string | null;
+}
+
 export type gameDataType = {
 	id: string | null;
 	isStarted: boolean;
@@ -21,6 +27,7 @@ export type gameDataType = {
 		id: number;
 	} | null;
 	timer: timerType;
+	chats: chat[];
 };
 
 interface storeType {

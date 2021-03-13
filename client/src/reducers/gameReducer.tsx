@@ -3,6 +3,8 @@ import {
 	setGameAction,
 	setPlayersAction,
 	setTimeAction,
+	addChatAction,
+	clearChatAction,
 } from "types/actionTypes";
 import { gameDataType } from "types/storeType";
 
@@ -16,9 +18,15 @@ const initialState: gameDataType = {
 		minutes: 0,
 		seconds: 0,
 	},
+	chats: [],
 };
 
-type reducerActions = setGameAction | setPlayersAction | setTimeAction;
+type reducerActions =
+	| setGameAction
+	| setPlayersAction
+	| setTimeAction
+	| addChatAction
+	| clearChatAction;
 
 const gameReducer: Reducer<gameDataType, reducerActions> = (
 	state = initialState,
@@ -33,6 +41,16 @@ const gameReducer: Reducer<gameDataType, reducerActions> = (
 			return {
 				...state,
 				timer: { minutes: action.minutes, seconds: action.seconds },
+			};
+		case "ADD_CHAT":
+			return {
+				...state,
+				chats: [...state.chats, action.payload],
+			};
+		case "CLEAR_CHAT":
+			return {
+				...state,
+				chats: [],
 			};
 		default:
 			return { ...state };

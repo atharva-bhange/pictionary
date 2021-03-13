@@ -9,7 +9,7 @@ const Message: React.FC<MessagePropType> = ({
 	sender,
 }) => {
 	if (success) {
-		return <div className="success-box">{sender} guessed.</div>;
+		return <div className="success-box">{sender} : guessed correctly!</div>;
 	} else {
 		return (
 			<div className="message-box">

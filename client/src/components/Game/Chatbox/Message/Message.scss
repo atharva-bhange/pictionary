@@ -1,8 +1,10 @@
 @import "utils/default.scss";
 
 .message-box {
-	font-size: 1rem;
-	padding: 0.5rem;
+	font-size: 1.1rem;
+	padding: 0.3rem;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 	.sender {
 		font-weight: 700;
 	}
@@ -12,11 +14,13 @@
 }
 
 .success-box {
-	font-size: 1rem;
+	font-size: 1.1rem;
 	color: green;
 	background-color: rgb(159, 255, 159);
 
 	border-radius: 10px;
 	font-weight: 700;
-	padding: 0.5rem;
+	padding: 0.3rem;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 }

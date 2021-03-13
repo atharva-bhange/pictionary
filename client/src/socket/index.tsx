@@ -1,9 +1,14 @@
 import { io, Socket } from "socket.io-client";
 import { setCanvasData } from "action/canvasActionCreators";
 import store from "utils/storeConfig";
-import { gameDataType, canvasDataType } from "../../../types/data";
-import { setPlayer, setTime } from "action/gameActionCreators";
-import { playerType, timerType } from "types/storeType";
+import {
+	gameDataType,
+	canvasDataType,
+	serverMessageResponseDataType,
+	clientMessageDataType,
+} from "../../../types/data";
+import { setPlayer, setTime, addChat } from "action/gameActionCreators";
+import { nameType, playerType, timerType } from "types/storeType";
 import watch from "redux-watch";
 import equal from "deep-equal";
 
@@ -45,6 +50,13 @@ export class Client {
 			store.dispatch(setTime(data.minutes, data.seconds));
 		});
 
+		this.socket.on(
+			"new-chat-message",
+			(data: serverMessageResponseDataType) => {
+				store.dispatch(addChat(data.sender, data.isGuessed, data.message));
+			}
+		);
+
 		let canvasWatcher = watch(store.getState, "canvas", equal);
 		store.subscribe(canvasWatcher((newVal) => this._sendDrawingData(newVal)));
 	}
@@ -56,6 +68,11 @@ export class Client {
 		if (store.getState().game.round?.isDrawer) {
 			this.socket?.emit("drawing-data", newVal);
 		}
+	};
+
+	sendMessage = (senderName: string, message: string) => {
+		const data: clientMessageDataType = { name: senderName, message };
+		this.socket?.emit("new-client-message", data);
 	};
 
 	disconnect() {

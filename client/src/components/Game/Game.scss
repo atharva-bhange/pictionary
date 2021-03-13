@@ -8,8 +8,8 @@
 	flex-direction: column;
 
 	.row1-container {
-		//flex: 0 1 auto;
-		flex-grow: 1;
+		flex: 0 1 auto;
+		//flex-grow: 1;
 		margin-bottom: 0.5rem;
 		display: flex;
 		.row1 {

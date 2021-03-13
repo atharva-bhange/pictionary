@@ -61,3 +61,16 @@ export interface setTimeAction {
 	minutes: number;
 	seconds: number;
 }
+
+export interface addChatAction {
+	type: "ADD_CHAT";
+	payload: {
+		isGuessed: boolean;
+		sender: string;
+		message: string | null;
+	};
+}
+
+export interface clearChatAction {
+	type: "CLEAR_CHAT";
+}
