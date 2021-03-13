@@ -50,10 +50,9 @@ export class Client {
 	joinGame(name: string, gameId: string) {
 		this.socket?.emit("join-game", { gameId, name });
 	}
-	_sendDrawingData = (newVal: any) => {
+	private _sendDrawingData = (newVal: any) => {
 		if (store.getState().game.round === null) return;
 		if (store.getState().game.round?.isDrawer) {
-			//console.log("sending data", this);
 			this.socket?.emit("drawing-data", newVal);
 		}
 	};

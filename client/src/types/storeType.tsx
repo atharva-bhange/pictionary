@@ -2,13 +2,6 @@ import { canvasDataType } from "../../../types/data";
 
 export type nameType = string | null;
 export type roomType = string | null;
-// export type canvasDataType = {
-// 	isPainting: boolean;
-// 	penSize: number;
-// 	penColor: string;
-// 	clear: boolean;
-// 	isFinished: boolean;
-// };
 export type timerType = {
 	minutes: number;
 	seconds: number;

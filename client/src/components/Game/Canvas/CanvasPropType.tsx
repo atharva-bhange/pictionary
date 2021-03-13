@@ -1,6 +1,4 @@
 import { canvasDataType } from "../../../../../types/data";
-import { nameType, gameDataType } from "types/storeType";
-import { Client } from "socket";
 import {
 	setIsPaintingActionCreatorType,
 	setPenSizeActionCreatorType,
@@ -14,7 +12,6 @@ interface CanvasPropType {
 	height: number;
 	canvasData: canvasDataType;
 	gameData: gameDataType;
-	name: nameType;
 	setIsPainting: setIsPaintingActionCreatorType;
 	setPenSize: setPenSizeActionCreatorType;
 	clearCanvas: clearCanvassActionCreatorType;

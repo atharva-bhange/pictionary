@@ -99,7 +99,6 @@ class Round {
 		io: Server,
 		gameId: string
 	) => {
-		console.log("sending time data");
 		io.to(gameId).emit("timer-data", { minutes, seconds });
 	};
 }

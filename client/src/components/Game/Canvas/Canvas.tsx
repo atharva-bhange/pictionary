@@ -17,7 +17,6 @@ const Canvas: React.FC<CanvasPropType> = ({
 	width,
 	canvasData,
 	gameData,
-	name,
 	setIsPainting,
 	setPenSize,
 	clearCanvas,
@@ -123,7 +122,6 @@ const mapStateToProps = (state: storeType) => {
 	return {
 		canvasData: state.canvas,
 		gameData: state.game,
-		name: state.name,
 	};
 };
 
