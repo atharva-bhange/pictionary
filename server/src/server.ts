@@ -19,7 +19,7 @@ io.on("connection", (socket: Socket) => {
 
 	socket.on("join-game", (data) => joinGame(io, socket, hub, data));
 
-	socket.on("disconnect", () => disconnectGame(hub, socket));
+	socket.on("disconnect", () => disconnectGame(hub, socket, io));
 });
 
 // let DB = process.env.DATABASE?.replace(

@@ -9,7 +9,6 @@ import {
 } from "types/data";
 class Chat {
 	private _word: string | null = null;
-	private _players: Player[] = [];
 	private _gameId: string;
 
 	constructor(gameId: string) {
@@ -24,6 +23,10 @@ class Chat {
 		player.socket.on("new-client-message", (data: clientMessageDataType) => {
 			io.to(this._gameId).emit("new-chat-message", this._checkMessage(data));
 		});
+	};
+
+	clearChat = (io: Server) => {
+		io.to(this._gameId).emit("clear-chat");
 	};
 
 	private _checkMessage = (

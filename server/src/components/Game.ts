@@ -103,6 +103,7 @@ class Game {
 				this.stop();
 				return;
 			} else this.currentRoundId += 1;
+			this._chat.clearChat(io);
 			this._startRound(io);
 		}, this._midRoundTime);
 	};

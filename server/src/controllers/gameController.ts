@@ -25,11 +25,13 @@ export const joinGame = (io: Server, socket: Socket, hub: Hub, data: any) => {
 	hub.addPlayer(player, gameId);
 };
 
-export const disconnectGame = (hub: Hub, socket: Socket) => {
+export const disconnectGame = (hub: Hub, socket: Socket, io: Server) => {
+	console.log("player disconnected");
 	if (hub.isPlayer(socket.id)) {
 		const { gameId, player } = hub.getPlayer(socket.id);
 		hub.deletePlayer(player);
 		hub.getGame(gameId).leave(player);
+		hub.getGame(gameId).sendPlayers(io);
 		if (hub.getGame(gameId).playerCount() === 0) {
 			hub.deleteGame(gameId);
 		}

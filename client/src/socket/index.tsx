@@ -7,8 +7,13 @@ import {
 	serverMessageResponseDataType,
 	clientMessageDataType,
 } from "../../../types/data";
-import { setPlayer, setTime, addChat } from "action/gameActionCreators";
-import { nameType, playerType, timerType } from "types/storeType";
+import {
+	setPlayer,
+	setTime,
+	addChat,
+	clearChat,
+} from "action/gameActionCreators";
+import { playerType, timerType } from "types/storeType";
 import watch from "redux-watch";
 import equal from "deep-equal";
 
@@ -56,6 +61,10 @@ export class Client {
 				store.dispatch(addChat(data.sender, data.isGuessed, data.message));
 			}
 		);
+
+		this.socket.on("clear-chat", () => {
+			store.dispatch(clearChat());
+		});
 
 		let canvasWatcher = watch(store.getState, "canvas", equal);
 		store.subscribe(canvasWatcher((newVal) => this._sendDrawingData(newVal)));
