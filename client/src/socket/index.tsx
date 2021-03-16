@@ -6,12 +6,15 @@ import {
 	canvasDataType,
 	serverMessageResponseDataType,
 	clientMessageDataType,
+	scoresDataType,
 } from "../../../types/data";
 import {
 	setPlayer,
 	setTime,
 	addChat,
 	clearChat,
+	updateScore,
+	toggleScoreBoard,
 } from "action/gameActionCreators";
 import { playerType, timerType } from "types/storeType";
 import watch from "redux-watch";
@@ -64,6 +67,18 @@ export class Client {
 
 		this.socket.on("clear-chat", () => {
 			store.dispatch(clearChat());
+		});
+
+		this.socket.on("show-scores", () => {
+			console.log("ordered to show");
+			store.dispatch(toggleScoreBoard(true));
+		});
+		this.socket.on("hide-scores", () => {
+			console.log("Ordered to hide");
+			store.dispatch(toggleScoreBoard(false));
+		});
+		this.socket.on("score-update", (data: scoresDataType) => {
+			store.dispatch(updateScore(data));
 		});
 
 		let canvasWatcher = watch(store.getState, "canvas", equal);

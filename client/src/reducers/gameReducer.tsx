@@ -5,6 +5,8 @@ import {
 	setTimeAction,
 	addChatAction,
 	clearChatAction,
+	updateScoreAction,
+	toggleScoreBoardAction,
 } from "types/actionTypes";
 import { gameDataType } from "types/storeType";
 
@@ -19,6 +21,10 @@ const initialState: gameDataType = {
 		seconds: 0,
 	},
 	chats: [],
+	scores: {
+		isDisplayed: false,
+		data: {},
+	},
 };
 
 type reducerActions =
@@ -26,7 +32,9 @@ type reducerActions =
 	| setPlayersAction
 	| setTimeAction
 	| addChatAction
-	| clearChatAction;
+	| clearChatAction
+	| updateScoreAction
+	| toggleScoreBoardAction;
 
 const gameReducer: Reducer<gameDataType, reducerActions> = (
 	state = initialState,
@@ -51,6 +59,13 @@ const gameReducer: Reducer<gameDataType, reducerActions> = (
 			return {
 				...state,
 				chats: [],
+			};
+		case "UPDATE_SCORE":
+			return { ...state, scores: { ...state.scores, data: action.payload } };
+		case "TOGGLE_SCORE_BOARD":
+			return {
+				...state,
+				scores: { ...state.scores, isDisplayed: action.payload },
 			};
 		default:
 			return { ...state };

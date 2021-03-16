@@ -1,0 +1,36 @@
+@import "utils/default.scss";
+
+
+.score-modal{
+    .score-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        text-align: center;
+    }
+    .score-body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .candidate{
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.2rem;
+            text-align: center;
+            width: 80%;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-evenly;
+            font-size: 1.5rem;
+        }
+        .first {
+            background-color: $GOLDEN;
+        }
+        .second{
+            background-color: $SILVER;
+        }
+        .third {
+            background-color: $BRONZE;
+        }
+    }
+}

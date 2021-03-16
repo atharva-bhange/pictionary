@@ -16,6 +16,7 @@ import Controls from "./Controls";
 import Title from "./Title";
 import ColourSwatch from "./ColourSwatch";
 import Timer from "./Timer";
+import ScoreBoard from "./ScoreBoard";
 
 const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 	const canvasBox = useRef<HTMLDivElement>(null);
@@ -94,6 +95,7 @@ const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 					</div>
 				</div>
 			</div>
+			<ScoreBoard />
 		</Container>
 	);
 };

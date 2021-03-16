@@ -3,6 +3,8 @@ import {
 	setTimeActionCreatorType,
 	addChatActionCreatorType,
 	clearChatActionCreatorType,
+	updateScoreActionCreatorType,
+	toggleScoreBoardActionCreatorType,
 } from "types/actionCreatorTypes";
 
 export const setPlayer: setPlayersActionCreatorType = (players) => {
@@ -38,5 +40,19 @@ export const addChat: addChatActionCreatorType = (
 export const clearChat: clearChatActionCreatorType = () => {
 	return {
 		type: "CLEAR_CHAT",
+	};
+};
+
+export const updateScore: updateScoreActionCreatorType = (newScore) => {
+	return {
+		type: "UPDATE_SCORE",
+		payload: newScore,
+	};
+};
+
+export const toggleScoreBoard: toggleScoreBoardActionCreatorType = (newVal) => {
+	return {
+		type: "TOGGLE_SCORE_BOARD",
+		payload: newVal,
 	};
 };

@@ -14,9 +14,15 @@ import {
 	setTimeAction,
 	addChatAction,
 	clearChatAction,
+	updateScoreAction,
+	toggleScoreBoardAction,
 } from "./actionTypes";
 import storeType from "types/storeType";
-import { canvasDataType, gameDataType } from "../../../types/data";
+import {
+	canvasDataType,
+	gameDataType,
+	scoresDataType,
+} from "../../../types/data";
 
 export type setNameActionCreatorType = (name: string | null) => setNameAction;
 
@@ -81,3 +87,11 @@ export type addChatActionCreatorType = (
 ) => addChatAction;
 
 export type clearChatActionCreatorType = () => clearChatAction;
+
+export type updateScoreActionCreatorType = (
+	newScore: scoresDataType
+) => updateScoreAction;
+
+export type toggleScoreBoardActionCreatorType = (
+	newVal: boolean
+) => toggleScoreBoardAction;

@@ -1,4 +1,4 @@
-import { canvasDataType } from "../../../types/data";
+import { canvasDataType, scoresDataType } from "../../../types/data";
 
 export type nameType = string | null;
 export type roomType = string | null;
@@ -28,6 +28,10 @@ export type gameDataType = {
 	} | null;
 	timer: timerType;
 	chats: chat[];
+	scores: {
+		isDisplayed: boolean;
+		data: scoresDataType;
+	};
 };
 
 interface storeType {

@@ -1,5 +1,5 @@
 import { gameDataType } from "types/storeType";
-import { canvasDataType } from "../../../types/data";
+import { canvasDataType, scoresDataType } from "../../../types/data";
 export interface setNameAction {
 	type: "SET_NAME";
 	payload: string | null;
@@ -73,4 +73,14 @@ export interface addChatAction {
 
 export interface clearChatAction {
 	type: "CLEAR_CHAT";
+}
+
+export interface updateScoreAction {
+	type: "UPDATE_SCORE";
+	payload: scoresDataType;
+}
+
+export interface toggleScoreBoardAction {
+	type: "TOGGLE_SCORE_BOARD";
+	payload: boolean;
 }
