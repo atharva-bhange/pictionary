@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import Round from "./Round";
 import Chat from "./Chat";
 import { canvasDataType, gameDataType } from "types/data";
+import Score from "./Score";
 
 class Game {
 	id: string;
@@ -15,6 +16,7 @@ class Game {
 	private _started = false;
 	private _midRoundTime = 5000;
 	private _chat: Chat;
+	private _scores = new Score();
 
 	constructor(id: string) {
 		this.id = id;
@@ -22,11 +24,14 @@ class Game {
 		for (let i = 1; i <= 3; i++) {
 			this.rounds.push(new Round(i));
 		}
-		this._chat = new Chat(this.id);
+		this._chat = new Chat(this.id, (name) => {
+			this._scores.updateScore(name, this.rounds[this.currentRoundId - 1]);
+		});
 	}
 
 	join = (newPlayer: Player, io: Server) => {
 		this.players.push(newPlayer);
+		this._scores.addPlayer(newPlayer.name);
 
 		this.sendPlayers(io);
 
@@ -87,7 +92,7 @@ class Game {
 		};
 
 		io.to(this.id).emit("start-round", gameData);
-
+		this._scores.send(this.id, io);
 		currentRound.startTimmer(io, this.id, () => this.stopRound(io));
 
 		currentRound.drawerPlayer?.socket.on("drawing-data", (data) => {
@@ -98,7 +103,10 @@ class Game {
 	};
 
 	stopRound = (io: Server) => {
+		this._scores.send(this.id, io);
+		io.to(this.id).emit("show-scores");
 		setTimeout(() => {
+			io.to(this.id).emit("hide-scores");
 			if (this.currentRoundId === this.roundCount) {
 				this.stop();
 				return;

@@ -52,6 +52,10 @@ class Round {
 		"Volleyball",
 		"Peanut",
 	];
+	readonly leastScore = 30;
+	availableScoreIndex = 0;
+	readonly scores = [200, 100, 50, this.leastScore];
+	guessedPlayers: Record<string, boolean> = {};
 
 	constructor(id: number) {
 		this.id = id;
@@ -100,6 +104,11 @@ class Round {
 		gameId: string
 	) => {
 		io.to(gameId).emit("timer-data", { minutes, seconds });
+	};
+
+	incrementScoreIndex = () => {
+		if (this.availableScoreIndex < this.scores.length - 1)
+			this.availableScoreIndex += 1;
 	};
 }
 

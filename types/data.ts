@@ -28,3 +28,5 @@ export interface serverMessageResponseDataType {
 	isGuessed: boolean;
 	message: string | null;
 }
+
+export type scoresDataType = Record<string, number>;

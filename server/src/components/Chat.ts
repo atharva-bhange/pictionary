@@ -10,9 +10,11 @@ import {
 class Chat {
 	private _word: string | null = null;
 	private _gameId: string;
+	private _scoreUpdateCallback: Function;
 
-	constructor(gameId: string) {
+	constructor(gameId: string, scoreUpdateCallback: (name: string) => void) {
 		this._gameId = gameId;
+		this._scoreUpdateCallback = scoreUpdateCallback;
 	}
 
 	changeWord = (newWord: string) => {
@@ -38,9 +40,10 @@ class Chat {
 				sender: data.name,
 				message: data.message,
 			};
-		else if (data.message === this._word)
+		else if (data.message === this._word) {
+			this._scoreUpdateCallback(data.name);
 			return { isGuessed: true, sender: data.name, message: null };
-		else
+		} else
 			return {
 				isGuessed: false,
 				sender: data.name,
