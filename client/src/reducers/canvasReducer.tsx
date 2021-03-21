@@ -8,6 +8,7 @@ import {
 	clearCanvasAction,
 	setIsFinishedAction,
 	setCoordinateAction,
+	leaveGameAction,
 } from "types/actionTypes";
 
 const initialState: canvasDataType = {
@@ -27,7 +28,8 @@ type reducerActions =
 	| setPenSizeAction
 	| clearCanvasAction
 	| setIsFinishedAction
-	| setCoordinateAction;
+	| setCoordinateAction
+	| leaveGameAction;
 
 const canvasReducer: Reducer<canvasDataType, reducerActions> = (
 	state = initialState,
@@ -48,6 +50,8 @@ const canvasReducer: Reducer<canvasDataType, reducerActions> = (
 			return { ...state, xCor: action.x, yCor: action.y };
 		case "SET_CANVAS":
 			return { ...action.payload };
+		case "LEAVE_GAME":
+			return { ...initialState };
 		default:
 			return { ...state };
 	}

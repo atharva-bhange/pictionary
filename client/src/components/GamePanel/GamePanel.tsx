@@ -6,7 +6,7 @@ import history from "utils/history";
 import storeType from "types/storeType";
 import GamePanelPropType from "./GamePanelPropType";
 import { getRandomRoom, createRoom, setRoom } from "action";
-
+import socketHandler from "utils/socketHandler";
 import "./Game.scss";
 
 const GamePanel: React.FC<GamePanelPropType> = ({
@@ -14,12 +14,17 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 	getRandomRoom,
 	createRoom,
 	setRoom,
+	name,
 }) => {
 	useEffect(() => {
+		if (name && !socketHandler.isConnected()) {
+			socketHandler.connect();
+			socketHandler.newPlayer(name);
+		}
 		if (room) {
 			history.push(`/${room}`);
 		}
-	}, [room]);
+	}, [room, name]);
 
 	const [customRoom, setCustomRoom] = useState<string>("");
 	const [joinRoom, setJoinRoom] = useState<string>("");
@@ -101,6 +106,7 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 const mapStateToProps = (state: storeType) => {
 	return {
 		room: state.room,
+		name: state.name,
 	};
 };
 

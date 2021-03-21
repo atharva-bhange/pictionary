@@ -84,3 +84,12 @@ export interface toggleScoreBoardAction {
 	type: "TOGGLE_SCORE_BOARD";
 	payload: boolean;
 }
+
+export interface toggleIsFinishedAction {
+	type: "TOGGLE_IS_FINISHED";
+	payload: boolean;
+}
+
+export interface leaveGameAction {
+	type: "LEAVE_GAME";
+}

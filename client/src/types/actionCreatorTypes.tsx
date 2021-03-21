@@ -16,6 +16,8 @@ import {
 	clearChatAction,
 	updateScoreAction,
 	toggleScoreBoardAction,
+	toggleIsFinishedAction,
+	leaveGameAction,
 } from "./actionTypes";
 import storeType from "types/storeType";
 import {
@@ -95,3 +97,9 @@ export type updateScoreActionCreatorType = (
 export type toggleScoreBoardActionCreatorType = (
 	newVal: boolean
 ) => toggleScoreBoardAction;
+
+export type toggleIsFinishedActionCreatorType = (
+	newVal: boolean
+) => toggleIsFinishedAction;
+
+export type leaveGameActionCreator = () => leaveGameAction;

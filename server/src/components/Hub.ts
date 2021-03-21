@@ -9,7 +9,7 @@ class Hub {
 	};
 	private players: {
 		[key: string]: {
-			gameId: string;
+			gameId: string | null;
 			player: Player;
 		};
 	};
@@ -17,9 +17,9 @@ class Hub {
 		this.games = {};
 		this.players = {};
 	}
-	addPlayer(player: Player, gameId: string) {
+	addPlayer(player: Player) {
 		this.players[player.id] = {
-			gameId: gameId,
+			gameId: null,
 			player,
 		};
 	}
@@ -30,7 +30,9 @@ class Hub {
 		this.games[game.id] = game;
 	}
 	deleteGame(gameId: string) {
+		console.log(this.games);
 		delete this.games[gameId];
+		console.log(this.games);
 	}
 	getGames() {
 		return this.games;
@@ -51,6 +53,18 @@ class Hub {
 	}
 	getPlayers() {
 		return this.players;
+	}
+	joinGame(player: Player, gameId: string) {
+		this.players[player.id] = {
+			gameId,
+			player,
+		};
+	}
+	leaveGame(player: Player) {
+		this.players[player.id] = {
+			player,
+			gameId: null,
+		};
 	}
 }
 

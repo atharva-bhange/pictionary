@@ -33,7 +33,6 @@ const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 		}
 
 		if (name && room) {
-			socketHandler.connect();
 			socketHandler.joinGame(name, room);
 		} else history.push("/");
 	}, [name, room]);
@@ -41,7 +40,7 @@ const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 	useEffect(
 		() => () => {
 			// disconnecting on component unmount
-			socketHandler.disconnect();
+			// socketHandler.disconnect();
 		},
 		[]
 	);

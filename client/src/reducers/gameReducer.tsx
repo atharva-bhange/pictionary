@@ -7,6 +7,8 @@ import {
 	clearChatAction,
 	updateScoreAction,
 	toggleScoreBoardAction,
+	toggleIsFinishedAction,
+	leaveGameAction,
 } from "types/actionTypes";
 import { gameDataType } from "types/storeType";
 
@@ -34,7 +36,9 @@ type reducerActions =
 	| addChatAction
 	| clearChatAction
 	| updateScoreAction
-	| toggleScoreBoardAction;
+	| toggleScoreBoardAction
+	| toggleIsFinishedAction
+	| leaveGameAction;
 
 const gameReducer: Reducer<gameDataType, reducerActions> = (
 	state = initialState,
@@ -66,6 +70,15 @@ const gameReducer: Reducer<gameDataType, reducerActions> = (
 			return {
 				...state,
 				scores: { ...state.scores, isDisplayed: action.payload },
+			};
+		case "TOGGLE_IS_FINISHED":
+			return {
+				...state,
+				isFinished: action.payload,
+			};
+		case "LEAVE_GAME":
+			return {
+				...initialState,
 			};
 		default:
 			return { ...state };

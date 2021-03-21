@@ -6,7 +6,7 @@ class Round {
 	word: string;
 	drawerPlayer: Player | null;
 	private _seconds: number;
-	private _startTime = 0.5 * 60;
+	private _startTime = 0.1 * 60;
 	private _words = [
 		"Angel",
 		"Eyeball",

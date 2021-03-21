@@ -3,26 +3,35 @@ import Hub from "../components/Hub";
 import Player from "../components/Player";
 import { Server, Socket } from "socket.io";
 
-export const joinGame = (io: Server, socket: Socket, hub: Hub, data: any) => {
+export const joinGame = (
+	io: Server,
+	socket: Socket,
+	hub: Hub,
+	gameId: string
+) => {
+	if (!hub.isPlayer(socket.id)) return;
 	console.log("joining game");
-	const { name, gameId } = data;
-
-	// create player
-	const player = new Player(socket.id, name, socket);
-	let game: Game;
+	let game;
 
 	// joining game
 	if (hub.isGame(gameId)) {
+		console.log("joining existing game");
 		game = hub.getGame(gameId);
 	} else {
-		game = new Game(gameId);
+		console.log("creating new game");
+		game = new Game(gameId, onGameComplete(hub), hub.deleteGame);
 		hub.addGame(game);
 	}
-	socket.join(gameId);
+
+	const player = hub.getPlayer(socket.id).player;
 	game.join(player, io);
 	console.log(hub.getGames());
 
-	hub.addPlayer(player, gameId);
+	hub.joinGame(player, gameId);
+};
+
+const onGameComplete = (hub: Hub) => {
+	return hub.leaveGame;
 };
 
 export const disconnectGame = (hub: Hub, socket: Socket, io: Server) => {
@@ -30,10 +39,11 @@ export const disconnectGame = (hub: Hub, socket: Socket, io: Server) => {
 	if (hub.isPlayer(socket.id)) {
 		const { gameId, player } = hub.getPlayer(socket.id);
 		hub.deletePlayer(player);
-		hub.getGame(gameId).leave(player);
-		hub.getGame(gameId).sendPlayers(io);
-		if (hub.getGame(gameId).playerCount() === 0) {
-			hub.deleteGame(gameId);
+		if (gameId) {
+			console.log("player removing from game");
+			hub.getGame(gameId).leave(player);
+			hub.getGame(gameId).sendPlayers(io);
+			hub.getGame(gameId).checkEmpty();
 		}
 	}
 };

@@ -6,6 +6,8 @@ import Round from "./Round";
 import Chat from "./Chat";
 import { canvasDataType, gameDataType } from "types/data";
 import Score from "./Score";
+import Hub from "./Hub";
+import hub from "../models/hubModel";
 
 class Game {
 	id: string;
@@ -14,11 +16,17 @@ class Game {
 	rounds: Round[] = [];
 	currentRoundId: number = 1;
 	private _started = false;
-	private _midRoundTime = 5000;
+	private _midRoundTime = 3000;
 	private _chat: Chat;
 	private _scores = new Score();
+	private _onGameComplete;
+	private _selfDestruction;
 
-	constructor(id: string) {
+	constructor(
+		id: string,
+		onGameComplete: (player: Player) => void,
+		selfDestruction: (gameId: string) => void
+	) {
 		this.id = id;
 		this.roundCount = 3;
 		for (let i = 1; i <= 3; i++) {
@@ -27,9 +35,12 @@ class Game {
 		this._chat = new Chat(this.id, (name) => {
 			this._scores.updateScore(name, this.rounds[this.currentRoundId - 1]);
 		});
+		this._onGameComplete = onGameComplete;
+		this._selfDestruction = selfDestruction;
 	}
 
 	join = (newPlayer: Player, io: Server) => {
+		newPlayer.socket.join(this.id);
 		this.players.push(newPlayer);
 		this._scores.addPlayer(newPlayer.name);
 
@@ -56,9 +67,17 @@ class Game {
 		}
 
 		this._chat.enablePlayerChat(newPlayer, io);
+
+		newPlayer.socket.on("leave-game", () => {
+			this.leave(newPlayer);
+			hub.leaveGame(newPlayer);
+			this.checkEmpty();
+			this.sendPlayers(io);
+		});
 	};
 
 	leave = (player: Player) => {
+		player.socket.leave(this.id);
 		this.players = this.players.filter((pl) => pl !== player);
 	};
 
@@ -104,19 +123,28 @@ class Game {
 
 	stopRound = (io: Server) => {
 		this._scores.send(this.id, io);
+		if (this.currentRoundId === this.roundCount) {
+			io.emit("show-score-finish");
+			this.stop();
+			return;
+		}
 		io.to(this.id).emit("show-scores");
 		setTimeout(() => {
 			io.to(this.id).emit("hide-scores");
-			if (this.currentRoundId === this.roundCount) {
-				this.stop();
-				return;
-			} else this.currentRoundId += 1;
+			this.currentRoundId += 1;
 			this._chat.clearChat(io);
 			this._startRound(io);
 		}, this._midRoundTime);
 	};
 
-	stop = () => {};
+	stop = () => {
+		this.players.forEach((player) => {
+			console.log("player forced to leave");
+			hub.leaveGame(player);
+		});
+		console.log(this.id);
+		hub.deleteGame(this.id);
+	};
 
 	start = (io: Server) => {
 		this._startRound(io);
@@ -125,6 +153,13 @@ class Game {
 
 	isStarted = () => {
 		return this._started;
+	};
+
+	checkEmpty = () => {
+		if (this.playerCount() === 0) {
+			console.log("deleting game due to no players");
+			hub.deleteGame(this.id);
+		}
 	};
 }
 

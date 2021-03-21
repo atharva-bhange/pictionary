@@ -5,6 +5,7 @@ import {
 	clearChatActionCreatorType,
 	updateScoreActionCreatorType,
 	toggleScoreBoardActionCreatorType,
+	toggleIsFinishedActionCreatorType,
 } from "types/actionCreatorTypes";
 
 export const setPlayer: setPlayersActionCreatorType = (players) => {
@@ -53,6 +54,13 @@ export const updateScore: updateScoreActionCreatorType = (newScore) => {
 export const toggleScoreBoard: toggleScoreBoardActionCreatorType = (newVal) => {
 	return {
 		type: "TOGGLE_SCORE_BOARD",
+		payload: newVal,
+	};
+};
+
+export const toggleIsFinished: toggleIsFinishedActionCreatorType = (newVal) => {
+	return {
+		type: "TOGGLE_IS_FINISHED",
 		payload: newVal,
 	};
 };

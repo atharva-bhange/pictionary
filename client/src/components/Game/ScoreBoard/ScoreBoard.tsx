@@ -1,5 +1,12 @@
-import React from "react";
-import { Modal, ModalBody, ModalTitle } from "react-bootstrap";
+import { leaveGame } from "action";
+import React, { useRef, useState, useEffect } from "react";
+import {
+	Modal,
+	ModalBody,
+	ModalTitle,
+	ModalFooter,
+	Button,
+} from "react-bootstrap";
 import { connect, ConnectedProps } from "react-redux";
 import storeType from "types/storeType";
 
@@ -8,16 +15,28 @@ import "./ScoreBoard.scss";
 const mapStateToProps = (state: storeType) => {
 	return {
 		isDisplayed: state.game.scores.isDisplayed,
+		isFinished: state.game.isFinished,
 		scores: state.game.scores.data,
 	};
 };
-const connector = connect(mapStateToProps);
 
-const ScoreBoard: React.FC<ConnectedProps<typeof connector>> = ({
+const mapDispatchToProps = {
+	leaveGame: leaveGame,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+const ScoreBoard: React.FC<Props> = ({
 	isDisplayed,
 	scores,
+	isFinished,
+	leaveGame,
 }) => {
 	const positions = ["first", "second", "third"];
+	const [time, setTime] = useState(5);
+	const intervalId = useRef<NodeJS.Timeout | null>(null);
 
 	const renderScores = () => {
 		const renderComponents = [];
@@ -66,6 +85,34 @@ const ScoreBoard: React.FC<ConnectedProps<typeof connector>> = ({
 		return renderComponents;
 	};
 
+	const startTime = () => {
+		if (!isFinished) return;
+		intervalId.current = setInterval(() => {
+			setTime((oldTime) => oldTime - 1);
+		}, 1000);
+	};
+
+	useEffect(startTime, [isFinished]);
+	useEffect(() => {
+		if (time === 0 && intervalId.current) {
+			clearInterval(intervalId.current);
+			leaveGame();
+		}
+	}, [leaveGame, time]);
+
+	const renderFooter = () => {
+		if (isFinished) {
+			return (
+				<ModalFooter>
+					<p>Leaving match in {time}</p>
+					<Button variant="danger" onClick={leaveGame}>
+						Leave Now
+					</Button>
+				</ModalFooter>
+			);
+		}
+	};
+
 	return (
 		<Modal
 			show={isDisplayed}
@@ -75,10 +122,13 @@ const ScoreBoard: React.FC<ConnectedProps<typeof connector>> = ({
 			keyboard={false}
 			dialogClassName="score-modal"
 		>
-			<ModalTitle className="score-title">Scores</ModalTitle>
+			<ModalTitle className="score-title">
+				{isFinished ? "Game Over" : "Scores"}
+			</ModalTitle>
 			<ModalBody className="score-body">{renderScores()}</ModalBody>
+			{renderFooter()}
 		</Modal>
 	);
 };
 
-export default connect(mapStateToProps)(ScoreBoard);
+export default connector(ScoreBoard);

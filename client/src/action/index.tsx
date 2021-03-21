@@ -4,6 +4,7 @@ import {
 	getRandomRoomActionCreatorType,
 	createRoomActionCreatorType,
 	setRoomActionCreatorType,
+	leaveGameActionCreator,
 } from "types/actionCreatorTypes";
 import apiHandler from "utils/apiHandler";
 
@@ -58,4 +59,10 @@ export const createRoom = (newRoom: string): createRoomActionCreatorType => (
 			console.log("Could Not create room");
 		})
 		.call();
+};
+
+export const leaveGame: leaveGameActionCreator = () => {
+	return {
+		type: "LEAVE_GAME",
+	};
 };

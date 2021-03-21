@@ -15,6 +15,7 @@ import {
 	clearChat,
 	updateScore,
 	toggleScoreBoard,
+	toggleIsFinished,
 } from "action/gameActionCreators";
 import { playerType, timerType } from "types/storeType";
 import watch from "redux-watch";
@@ -34,6 +35,16 @@ export class Client {
 		this.socket.on("disconnect", () => {
 			console.log("Disconnected from server");
 		});
+	}
+
+	isConnected = () => {
+		if (!this.socket) return false;
+		if (this.socket.connected) return true;
+		return false;
+	};
+	joinGame(name: string, gameId: string) {
+		if (!this.socket) return;
+		this.socket.emit("join-game", { gameId, name });
 		this.socket.on("start-round", (game: gameDataType) => {
 			const newGame = game as any;
 			if (game.round.drawer === store.getState().name) {
@@ -81,25 +92,40 @@ export class Client {
 			store.dispatch(updateScore(data));
 		});
 
+		this.socket.on("show-score-finish", () => {
+			store.dispatch(toggleScoreBoard(true));
+			store.dispatch(toggleIsFinished(true));
+		});
+
 		let canvasWatcher = watch(store.getState, "canvas", equal);
 		store.subscribe(canvasWatcher((newVal) => this._sendDrawingData(newVal)));
 	}
-	joinGame(name: string, gameId: string) {
-		this.socket?.emit("join-game", { gameId, name });
-	}
 	private _sendDrawingData = (newVal: any) => {
 		if (store.getState().game.round === null) return;
-		if (store.getState().game.round?.isDrawer) {
-			this.socket?.emit("drawing-data", newVal);
+		if (store.getState().game.round?.isDrawer && this.socket) {
+			this.socket.emit("drawing-data", newVal);
 		}
 	};
 
 	sendMessage = (senderName: string, message: string) => {
+		if (!this.socket) return;
 		const data: clientMessageDataType = { name: senderName, message };
-		this.socket?.emit("new-client-message", data);
+		this.socket.emit("new-client-message", data);
+	};
+
+	newPlayer = (name: string) => {
+		if (!this.socket) return;
+		this.socket.emit("new-player", { name });
+	};
+
+	leaveGame = () => {
+		if (!this.socket) return;
+		this.socket.emit("leave-game");
 	};
 
 	disconnect() {
-		this.socket?.disconnect();
+		console.log("running dissconnect");
+		if (!this.socket) return;
+		this.socket.disconnect();
 	}
 }
