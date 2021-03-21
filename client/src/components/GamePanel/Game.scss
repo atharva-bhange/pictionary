@@ -1,12 +1,31 @@
 @import "utils/default.scss";
 
 .game-panel {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
-	p {
-		font-size: 25px;
+	width: 100%;
+	height: 100%;
+	background-color: $DARK;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.panel-box {
+		background-color: $LIGHT;
+		border-radius: 10px;
+		box-shadow: 4px 4px 4px #1f3d6d;
+		padding: 1rem;
+		text-align: center;
+		p {
+			font-size: 1.5rem;
+			margin: 0.5rem;
+		}
+	}
+	.player-count {
+		position: absolute;
+		bottom: 0.5rem;
+		left: 50%;
+		transform: translate(-50%);
+		background-color: $LIGHT;
+		padding: 0.5rem;
+		border-radius: 5px;
+		color: green;
 	}
 }

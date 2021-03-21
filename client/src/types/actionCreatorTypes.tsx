@@ -18,6 +18,7 @@ import {
 	toggleScoreBoardAction,
 	toggleIsFinishedAction,
 	leaveGameAction,
+	setOnlinePlayersAction,
 } from "./actionTypes";
 import storeType from "types/storeType";
 import {
@@ -103,3 +104,7 @@ export type toggleIsFinishedActionCreatorType = (
 ) => toggleIsFinishedAction;
 
 export type leaveGameActionCreator = () => leaveGameAction;
+
+export type setOnlinePlayersActionCreatorType = (
+	count: number
+) => setOnlinePlayersAction;

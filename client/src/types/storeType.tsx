@@ -6,6 +6,7 @@ export type timerType = {
 	minutes: number;
 	seconds: number;
 };
+export type onlineType = number;
 
 export type playerType = string[];
 
@@ -39,6 +40,7 @@ interface storeType {
 	room: roomType;
 	game: gameDataType;
 	canvas: canvasDataType;
+	online: onlineType;
 }
 
 export default storeType;

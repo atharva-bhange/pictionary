@@ -6,7 +6,11 @@ import mongoose from "mongoose";
 
 import Hub from "./components/Hub";
 import app from "./app";
-import { joinGame, disconnectGame } from "./controllers/gameController";
+import {
+	joinGame,
+	disconnectGame,
+	newPlayerController,
+} from "./controllers/gameController";
 import Player from "./components/Player";
 import storedHub from "./models/hubModel";
 
@@ -19,11 +23,7 @@ const hub = storedHub;
 io.on("connection", (socket: Socket) => {
 	console.log("New Connection");
 
-	socket.on("new-player", (data) => {
-		console.log("player added to hub");
-		const player = new Player(socket.id, data.name, socket);
-		hub.addPlayer(player);
-	});
+	socket.on("new-player", (data) => newPlayerController(data, socket, hub, io));
 
 	socket.on("join-game", (data) => joinGame(io, socket, hub, data.gameId));
 

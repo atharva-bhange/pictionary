@@ -30,3 +30,7 @@ export interface serverMessageResponseDataType {
 }
 
 export type scoresDataType = Record<string, number>;
+
+export interface randomGameResultType {
+	game: string | null;
+}

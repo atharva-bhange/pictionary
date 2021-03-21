@@ -93,3 +93,8 @@ export interface toggleIsFinishedAction {
 export interface leaveGameAction {
 	type: "LEAVE_GAME";
 }
+
+export interface setOnlinePlayersAction {
+	type: "SET_ONLINE_PLAYERS";
+	payload: number;
+}

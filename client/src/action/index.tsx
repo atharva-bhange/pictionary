@@ -5,6 +5,7 @@ import {
 	createRoomActionCreatorType,
 	setRoomActionCreatorType,
 	leaveGameActionCreator,
+	setOnlinePlayersActionCreatorType,
 } from "types/actionCreatorTypes";
 import apiHandler from "utils/apiHandler";
 
@@ -64,5 +65,12 @@ export const createRoom = (newRoom: string): createRoomActionCreatorType => (
 export const leaveGame: leaveGameActionCreator = () => {
 	return {
 		type: "LEAVE_GAME",
+	};
+};
+
+export const setOnlinePlayers: setOnlinePlayersActionCreatorType = (count) => {
+	return {
+		type: "SET_ONLINE_PLAYERS",
+		payload: count,
 	};
 };

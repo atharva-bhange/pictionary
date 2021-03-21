@@ -8,6 +8,7 @@ import GamePanelPropType from "./GamePanelPropType";
 import { getRandomRoom, createRoom, setRoom } from "action";
 import socketHandler from "utils/socketHandler";
 import "./Game.scss";
+import Header from "components/Header";
 
 const GamePanel: React.FC<GamePanelPropType> = ({
 	room,
@@ -15,6 +16,7 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 	createRoom,
 	setRoom,
 	name,
+	online,
 }) => {
 	useEffect(() => {
 		if (name && !socketHandler.isConnected()) {
@@ -26,14 +28,7 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 		}
 	}, [room, name]);
 
-	const [customRoom, setCustomRoom] = useState<string>("");
 	const [joinRoom, setJoinRoom] = useState<string>("");
-
-	const onCreateSubmit = () => {
-		if (customRoom.length > 0) {
-			createRoom(customRoom);
-		}
-	};
 
 	const onJoinClick = () => {
 		setRoom(joinRoom);
@@ -42,63 +37,50 @@ const GamePanel: React.FC<GamePanelPropType> = ({
 		}
 	};
 
+	const onJoinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let val = e.target.value;
+		if (val.length > 0 && val.length < 6) {
+			val = val.replace(" ", "");
+			setJoinRoom(val);
+		} else if (val.length >= 6) {
+			val = val.replace(" ", "");
+			val = val.substr(0, 5);
+			setJoinRoom(val);
+		} else {
+			setJoinRoom(val);
+		}
+	};
+
 	return (
 		<div className="game-panel">
-			<Form>
-				<Row>
-					<Col>
-						<p>Create Private Room</p>
-
-						<FormControl
-							size="lg"
-							type="text"
-							placeholder="Custom Game Id"
-							value={customRoom}
-							onChange={(e) => {
-								let val = e.target.value;
-								val = val.replace(" ", "-");
-								setCustomRoom(val);
-							}}
-						></FormControl>
-						<Button
-							type="button"
-							variant="success"
-							className="mt-3"
-							size="lg"
-							onClick={onCreateSubmit}
-						>
-							Create
-						</Button>
-					</Col>
-					<Col>
-						<p>Quick Join</p>
-						<Button size="lg" onClick={() => getRandomRoom()}>
-							Join Random Game
-						</Button>
-					</Col>
-					<Col>
-						<p>Join A Room</p>
-						<FormControl
-							size="lg"
-							type="text"
-							placeholder="Game Id"
-							value={joinRoom}
-							onChange={(e) => {
-								let val = e.target.value;
-								setJoinRoom(val);
-							}}
-						></FormControl>
-						<Button
-							variant="secondary"
-							className="mt-3"
-							size="lg"
-							onClick={onJoinClick}
-						>
-							Join
-						</Button>
-					</Col>
-				</Row>
-			</Form>
+			<Header />
+			<div className="panel-box">
+				<Form>
+					<p>Quick Join</p>
+					<Button autoFocus size="lg" onClick={socketHandler.findRandomGame}>
+						Join Random Game
+					</Button>
+				</Form>
+				<Form>
+					<p className="mt-4">Create/Join Game</p>
+					<FormControl
+						size="lg"
+						type="text"
+						placeholder="Game Id"
+						value={joinRoom}
+						onChange={onJoinChange}
+					></FormControl>
+					<Button
+						variant="secondary"
+						className="mt-3"
+						size="lg"
+						onClick={onJoinClick}
+					>
+						Join
+					</Button>
+				</Form>
+			</div>
+			<div className="player-count">Online Players : {online}</div>
 		</div>
 	);
 };
@@ -107,6 +89,7 @@ const mapStateToProps = (state: storeType) => {
 	return {
 		room: state.room,
 		name: state.name,
+		online: state.online,
 	};
 };
 

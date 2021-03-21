@@ -1,6 +1,8 @@
 // This class is responsible to storing all the running Games on the server!
 
+import { Server } from "socket.io";
 import Game from "src/components/Game";
+import { getRandom } from "../utils/utilFunctions";
 import Player from "./Player";
 
 class Hub {
@@ -65,6 +67,25 @@ class Hub {
 			player,
 			gameId: null,
 		};
+	}
+
+	findRandomRoom() {
+		let availableGames: string[] = [];
+		for (let gamId of Object.keys(this.games)) {
+			const game = this.games[gamId];
+			if (game.currentRoundId < 3) {
+				availableGames.push(gamId);
+			}
+		}
+		return getRandom<string>(availableGames);
+	}
+
+	playerCount() {
+		return Object.keys(this.players).length;
+	}
+
+	sendPlayerCount(io: Server) {
+		io.emit("online-players", this.playerCount());
 	}
 }
 

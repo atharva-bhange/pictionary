@@ -16,7 +16,7 @@ const App: React.FC<AppPropType> = ({ name }) => {
 		<div className="app">
 			<Router history={history}>
 				<Route path="/" exact>
-					<Header />
+					{/* <Header /> */}
 					{!name ? <Login /> : <GamePanel />}
 				</Route>
 				<Route path="/:id" exact>

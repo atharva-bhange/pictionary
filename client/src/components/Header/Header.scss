@@ -1,3 +1,13 @@
+@import "utils/default.scss";
+
 .header {
-	float: right;
+	position: absolute;
+	top: 0.5rem;
+	right: 1rem;
+	display: inline;
+	.name-box {
+		// padding: 0.5rem;
+		// background-color: $LIGHT;
+		// border-radius: 5px;
+	}
 }

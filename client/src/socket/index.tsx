@@ -7,6 +7,7 @@ import {
 	serverMessageResponseDataType,
 	clientMessageDataType,
 	scoresDataType,
+	randomGameResultType,
 } from "../../../types/data";
 import {
 	setPlayer,
@@ -20,6 +21,8 @@ import {
 import { playerType, timerType } from "types/storeType";
 import watch from "redux-watch";
 import equal from "deep-equal";
+import { setOnlinePlayers, setRoom } from "action";
+import history from "utils/history";
 
 export class Client {
 	socket: Socket | null = null;
@@ -116,6 +119,7 @@ export class Client {
 	newPlayer = (name: string) => {
 		if (!this.socket) return;
 		this.socket.emit("new-player", { name });
+		this.getOnlinePlayers();
 	};
 
 	leaveGame = () => {
@@ -128,4 +132,25 @@ export class Client {
 		if (!this.socket) return;
 		this.socket.disconnect();
 	}
+
+	findRandomGame = () => {
+		if (!this.socket) return;
+		this.socket.emit("find-random-game");
+		this.socket.on("random-game-result", (data: randomGameResultType) => {
+			if (data.game) {
+				store.dispatch(setRoom(data.game));
+				history.push(`/${data.game}`);
+			} else {
+				console.log("Couldn't find good room");
+			}
+		});
+	};
+
+	getOnlinePlayers = () => {
+		if (!this.socket) return;
+		this.socket.emit("get-online-players");
+		this.socket.on("online-players", (data: number) => {
+			store.dispatch(setOnlinePlayers(data));
+		});
+	};
 }
