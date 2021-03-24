@@ -16,7 +16,9 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"baseUrl": "src",
-		"removeComments": true
+		"removeComments": true,
+		"sourceMap": false,
+		"inlineSourceMap": false
 	},
 	"include": ["src"]
 }
