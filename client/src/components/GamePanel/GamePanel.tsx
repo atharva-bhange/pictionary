@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Form, Col, Row, Button, FormControl } from "react-bootstrap";
+import { Form, Button, FormControl } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import history from "utils/history";
 import storeType from "types/storeType";
 import GamePanelPropType from "./GamePanelPropType";
-import { getRandomRoom, createRoom, setRoom } from "action";
+import { setRoom } from "action";
 import socketHandler from "utils/socketHandler";
 import "./Game.scss";
 import Header from "components/Header";
 
 const GamePanel: React.FC<GamePanelPropType> = ({
 	room,
-	getRandomRoom,
-	createRoom,
 	setRoom,
 	name,
 	online,
 }) => {
 	useEffect(() => {
+		document.title = "Choose Game";
 		if (name && !socketHandler.isConnected()) {
 			socketHandler.connect();
 			socketHandler.newPlayer(name);
@@ -93,6 +92,4 @@ const mapStateToProps = (state: storeType) => {
 	};
 };
 
-export default connect(mapStateToProps, { getRandomRoom, createRoom, setRoom })(
-	GamePanel
-);
+export default connect(mapStateToProps, { setRoom })(GamePanel);

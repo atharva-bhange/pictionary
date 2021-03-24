@@ -38,7 +38,6 @@ const Canvas: React.FC<CanvasPropType> = ({
 			clearCanvas(false);
 		}
 		if (canvasData.isPainting && canvas.current && context.current) {
-			console.log("painting", canvasData.xCor, canvasData.yCor);
 			const rect = canvas.current.getBoundingClientRect();
 			let x_cor = canvasData.xCor - rect.left;
 			let y_cor = canvasData.yCor - rect.top;
@@ -52,7 +51,6 @@ const Canvas: React.FC<CanvasPropType> = ({
 			ctx.moveTo(x_cor, y_cor);
 		}
 		if (canvasData.isFinished && context.current) {
-			console.log("begining new path ");
 			context.current.beginPath();
 			setIsFinished(false);
 		}

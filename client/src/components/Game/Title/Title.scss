@@ -31,14 +31,16 @@
 	.word {
 		display: flex;
 		font-size: 2rem;
+		flex-basis: 15ch;
+		justify-content: flex-end;
 
 		.underline {
-			font-size: 2rem;
+			font-size: 1.7rem;
 			width: 1ch;
-			border-bottom: 4px solid black;
+			border-bottom: 3px solid black;
 			padding-bottom: 2rem;
-			margin-left: 0.5rem;
-			margin-right: 0.5rem;
+			margin-left: 0.2rem;
+			margin-right: 0.2rem;
 		}
 	}
 }

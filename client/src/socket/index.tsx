@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import { setCanvasData } from "action/canvasActionCreators";
+import { clearCanvas, setCanvasData } from "action/canvasActionCreators";
 import store from "utils/storeConfig";
 import {
 	gameDataType,
@@ -27,16 +27,16 @@ import history from "utils/history";
 export class Client {
 	socket: Socket | null = null;
 	connect() {
-		console.log("conecting");
+		// console.log("conecting");
 		this.socket = io("/", {
 			transports: ["websocket"],
 			path: "/socket",
 		});
 		this.socket.on("connect", () => {
-			console.log("Connected to server");
+			// console.log("Connected to server");
 		});
 		this.socket.on("disconnect", () => {
-			console.log("Disconnected from server");
+			// console.log("Disconnected from server");
 		});
 	}
 
@@ -64,7 +64,7 @@ export class Client {
 			store.dispatch({ type: "SET_GAME", payload: newGame });
 		});
 		this.socket.on("players-update", (data: playerType) => {
-			console.log("got players");
+			// console.log("got players");
 			store.dispatch(setPlayer(data));
 		});
 
@@ -84,11 +84,12 @@ export class Client {
 		});
 
 		this.socket.on("show-scores", () => {
-			console.log("ordered to show");
+			// console.log("ordered to show");
 			store.dispatch(toggleScoreBoard(true));
+			store.dispatch(clearCanvas(true));
 		});
 		this.socket.on("hide-scores", () => {
-			console.log("Ordered to hide");
+			// console.log("Ordered to hide");
 			store.dispatch(toggleScoreBoard(false));
 		});
 		this.socket.on("score-update", (data: scoresDataType) => {
@@ -128,7 +129,7 @@ export class Client {
 	};
 
 	disconnect() {
-		console.log("running dissconnect");
+		// console.log("running dissconnect");
 		if (!this.socket) return;
 		this.socket.disconnect();
 	}
@@ -141,7 +142,7 @@ export class Client {
 				store.dispatch(setRoom(data.game));
 				history.push(`/${data.game}`);
 			} else {
-				console.log("Couldn't find good room");
+				// console.log("Couldn't find good room");
 			}
 		});
 	};

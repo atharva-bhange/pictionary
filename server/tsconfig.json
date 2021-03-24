@@ -12,7 +12,8 @@
 		"paths": {
 			"types/*": ["./types/*"],
 			"src/*": ["./server/src/*"]
-		}
+		},
+		"removeComments": true
 	},
 	"include": ["src", "types"]
 }

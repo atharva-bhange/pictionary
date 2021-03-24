@@ -32,9 +32,7 @@ class Hub {
 		this.games[game.id] = game;
 	}
 	deleteGame(gameId: string) {
-		console.log(this.games);
 		delete this.games[gameId];
-		console.log(this.games);
 	}
 	getGames() {
 		return this.games;

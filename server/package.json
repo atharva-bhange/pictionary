@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "tsc",
-		"start": "npm run build && node build/server/src/server.js",
+		"start": "node build/server/src/server.js",
 		"dev": "concurrently \"tsc -w\" \"nodemon build/server/src/server.js\""
 	},
 	"author": "",

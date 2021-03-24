@@ -9,7 +9,10 @@ class Score {
 	};
 
 	updateScore = (name: string, currentRound: Round) => {
-		if (!currentRound.guessedPlayers[name]) {
+		if (
+			!currentRound.guessedPlayers[name] &&
+			currentRound.drawerPlayer?.name !== name
+		) {
 			this._scores[name] +=
 				currentRound.scores[currentRound.availableScoreIndex];
 			currentRound.incrementScoreIndex();

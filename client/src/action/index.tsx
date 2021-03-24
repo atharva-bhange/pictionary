@@ -34,10 +34,10 @@ export const getRandomRoom = (): getRandomRoomActionCreatorType => (
 			});
 		})
 		.code(204, () => {
-			console.log("no room found");
+			// console.log("no room found");
 		})
 		.code(500, () => {
-			console.log("Server Error");
+			// console.log("Server Error");
 		})
 		.call();
 };
@@ -57,7 +57,7 @@ export const createRoom = (newRoom: string): createRoomActionCreatorType => (
 			});
 		})
 		.code(500, () => {
-			console.log("Could Not create room");
+			// console.log("Could Not create room");
 		})
 		.call();
 };

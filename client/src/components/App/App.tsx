@@ -6,7 +6,6 @@ import "./App.scss";
 import Login from "components/Login";
 import Game from "components/Game";
 import GamePanel from "components/GamePanel";
-import Header from "components/Header";
 import history from "utils/history";
 import storeType from "types/storeType";
 import AppPropType from "./AppPropType";
@@ -16,7 +15,6 @@ const App: React.FC<AppPropType> = ({ name }) => {
 		<div className="app">
 			<Router history={history}>
 				<Route path="/" exact>
-					{/* <Header /> */}
 					{!name ? <Login /> : <GamePanel />}
 				</Route>
 				<Route path="/:id" exact>

@@ -19,14 +19,9 @@ class Game {
 	private _midRoundTime = 3000;
 	private _chat: Chat;
 	private _scores = new Score();
-	private _onGameComplete;
-	private _selfDestruction;
+	drawerComplete: Record<string, boolean> = {};
 
-	constructor(
-		id: string,
-		onGameComplete: (player: Player) => void,
-		selfDestruction: (gameId: string) => void
-	) {
+	constructor(id: string) {
 		this.id = id;
 		this.roundCount = 3;
 		for (let i = 1; i <= 3; i++) {
@@ -35,8 +30,6 @@ class Game {
 		this._chat = new Chat(this.id, (name) => {
 			this._scores.updateScore(name, this.rounds[this.currentRoundId - 1]);
 		});
-		this._onGameComplete = onGameComplete;
-		this._selfDestruction = selfDestruction;
 	}
 
 	join = (newPlayer: Player, io: Server) => {
@@ -86,7 +79,7 @@ class Game {
 	}
 
 	sendPlayers(io: Server) {
-		console.log("sending players");
+		// console.log("sending players");
 		const players = this.players.map((player) => player.name);
 		io.to(this.id).emit("players-update", players);
 	}
@@ -96,10 +89,8 @@ class Game {
 		this._chat.changeWord(currentRound.word);
 		const players = this.players.map((player) => player.name);
 		// setting the drawer
-		currentRound.drawer(
-			this.players[Math.floor(Math.random() * this.players.length)]
-		);
-		console.log("starting round");
+		currentRound.setDrawer(this.players, this.drawerComplete);
+		// console.log("starting round");
 		const gameData: gameDataType = {
 			id: this.id,
 			players: players,
@@ -139,10 +130,10 @@ class Game {
 
 	stop = () => {
 		this.players.forEach((player) => {
-			console.log("player forced to leave");
+			// console.log("player forced to leave");
 			hub.leaveGame(player);
 		});
-		console.log(this.id);
+		// console.log(this.id);
 		hub.deleteGame(this.id);
 	};
 
@@ -157,8 +148,15 @@ class Game {
 
 	checkEmpty = () => {
 		if (this.playerCount() === 0) {
-			console.log("deleting game due to no players");
+			// console.log("deleting game due to no players");
+			this.clearTimer();
 			hub.deleteGame(this.id);
+		}
+	};
+
+	clearTimer = () => {
+		for (let i = 0; i < this.rounds.length; i++) {
+			this.rounds[i].stopTimmer();
 		}
 	};
 }

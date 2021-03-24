@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Form,
 	FormControl,
@@ -13,13 +13,21 @@ import "./Login.scss";
 import LoginPropType from "./LoginPropType";
 
 const Login: React.FC<LoginPropType> = ({ setName }) => {
-	const nameInput = useRef<HTMLInputElement>(null);
+	const [nameInput, setNameInput] = useState("");
+
+	useEffect(() => {
+		document.title = "skech";
+	}, []);
 
 	const submitName = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (nameInput.current) {
-			setName(nameInput.current.value);
-		}
+		setName(nameInput);
+	};
+
+	const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let val = e.target.value;
+		if (val.length >= 12) val = val.substring(0, 12);
+		setNameInput(val);
 	};
 
 	return (
@@ -31,7 +39,8 @@ const Login: React.FC<LoginPropType> = ({ setName }) => {
 						autoFocus
 						size="lg"
 						type="text"
-						ref={nameInput}
+						onChange={onNameChange}
+						value={nameInput}
 						placeholder="Enter Name"
 					></FormControl>
 				</FormGroup>

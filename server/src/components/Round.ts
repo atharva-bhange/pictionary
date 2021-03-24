@@ -8,54 +8,53 @@ class Round {
 	private _seconds: number;
 	private _startTime = 1.5 * 60;
 	private _words = [
-		"Angel",
-		"Eyeball",
-		"Pizza",
-		"Angry",
-		"Fireworks",
-		"Pumpkin",
-		"Baby",
-		"Flower",
-		"Rainbow",
-		"Beard",
-		"Recycle",
-		"Bible",
-		"Giraffe",
-		"Glasses",
-		"Snowflake",
-		"Book",
-		"Stairs",
-		"Bucket",
-		"Starfish",
-		"Bumble bee",
-		"Igloo",
-		"Strawberry",
-		"Butterfly",
-		"Sun",
-		"Camera",
-		"Lamp",
-		"Tire",
-		"Cat",
-		"Lion",
-		"Toast",
-		"Church",
-		"Mailbox",
-		"Toothbrush",
-		"Crayon",
-		"Night",
-		"Toothpaste",
-		"Dolphin",
-		"Nose",
-		"Truck",
-		"Egg",
-		"Olympics",
-		"Volleyball",
-		"Peanut",
+		"angel",
+		"eyeball",
+		"pizza",
+		"angry",
+		"fireworks",
+		"pumpkin",
+		"baby",
+		"flower",
+		"rainbow",
+		"beard",
+		"recycle",
+		"bible",
+		"giraffe",
+		"glasses",
+		"snowflake",
+		"book",
+		"stairs",
+		"bucket",
+		"starfish",
+		"igloo",
+		"strawberry",
+		"butterfly",
+		"sun",
+		"camera",
+		"lamp",
+		"tire",
+		"cat",
+		"lion",
+		"toast",
+		"church",
+		"mailbox",
+		"toothbrush",
+		"crayon",
+		"night",
+		"toothpaste",
+		"dolphin",
+		"nose",
+		"truck",
+		"egg",
+		"olympics",
+		"volleyball",
 	];
 	readonly leastScore = 30;
 	availableScoreIndex = 0;
 	readonly scores = [200, 100, 50, this.leastScore];
 	guessedPlayers: Record<string, boolean> = {};
+	currentIntervalId: NodeJS.Timeout | null = null;
 
 	constructor(id: number) {
 		this.id = id;
@@ -64,13 +63,30 @@ class Round {
 		this._seconds = this._startTime;
 	}
 
-	drawer(player: Player) {
-		this.drawerPlayer = player;
+	setDrawer(allPlayers: Player[], drawerComplete: Record<string, boolean>) {
+		let availableDrawers = [];
+		for (let i = 0; i < allPlayers.length; i++) {
+			const player = allPlayers[i];
+			if (drawerComplete.hasOwnProperty(player.name)) {
+				if (drawerComplete[player.name] === false)
+					availableDrawers.push(player);
+			} else {
+				availableDrawers.push(player);
+			}
+		}
+		if (availableDrawers.length === 0) {
+			drawerComplete = {};
+			availableDrawers = allPlayers;
+		}
+		this.drawerPlayer =
+			availableDrawers[Math.floor(Math.random() * availableDrawers.length)];
+		// keeping record of people who have drawn
+		drawerComplete[this.drawerPlayer.name] = true;
 	}
 
 	startTimmer = (io: Server, gameId: string, onStopCallback: Function) => {
-		const intervalId: any = setInterval(
-			() => this._updateTime(io, gameId, onStopCallback, intervalId),
+		this.currentIntervalId = setInterval(
+			() => this._updateTime(io, gameId, onStopCallback),
 			1000
 		);
 	};
@@ -78,8 +94,7 @@ class Round {
 	private _updateTime = (
 		io: Server,
 		gameId: string,
-		onStopCallback: Function,
-		intervalId: NodeJS.Timeout
+		onStopCallback: Function
 	) => {
 		const minutes = Math.floor(this._seconds / 60);
 		const seconds = this._seconds % 60;
@@ -88,13 +103,13 @@ class Round {
 
 		this._seconds--;
 		if (this._seconds < 0) {
-			this._stopTimmer(intervalId);
+			this.stopTimmer();
 			onStopCallback();
 		}
 	};
 
-	private _stopTimmer = (intervalId: NodeJS.Timeout) => {
-		clearInterval(intervalId);
+	stopTimmer = () => {
+		if (this.currentIntervalId) clearInterval(this.currentIntervalId);
 	};
 
 	private _sendTimmerData = (

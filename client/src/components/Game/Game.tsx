@@ -1,13 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
 
 import Canvas from "./Canvas";
 import storeType from "types/storeType";
 import "./Game.scss";
 import GamePropType from "./GamePropType";
-import { setRoom } from "action";
 import socketHandler from "utils/socketHandler";
 import history from "utils/history";
 import Chatbox from "./Chatbox";
@@ -18,11 +16,9 @@ import ColourSwatch from "./ColourSwatch";
 import Timer from "./Timer";
 import ScoreBoard from "./ScoreBoard";
 
-const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
+const Game: React.FC<GamePropType> = ({ name, room, gameData }) => {
 	const canvasBox = useRef<HTMLDivElement>(null);
 	const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
-
-	// const params = useParams<any>();
 
 	useEffect(() => {
 		// Run On Mount
@@ -33,23 +29,10 @@ const Game: React.FC<GamePropType> = ({ name, room, gameData, setRoom }) => {
 		}
 
 		if (name && room) {
+			document.title = `Game Id : ${room}`;
 			socketHandler.joinGame(name, room);
 		} else history.push("/");
 	}, [name, room]);
-
-	useEffect(
-		() => () => {
-			// disconnecting on component unmount
-			// socketHandler.disconnect();
-		},
-		[]
-	);
-
-	// useEffect(() => {
-	// 	if (!room) {
-	// 		setRoom(params.id as string);
-	// 	}
-	// }, [room, params, setRoom]);
 
 	const setColorSwatchOpacity = () => {
 		if (gameData.isStarted && gameData.round) {
@@ -107,4 +90,4 @@ const mapStateToProps = (state: storeType) => {
 	};
 };
 
-export default connect(mapStateToProps, { setRoom })(Game);
+export default connect(mapStateToProps)(Game);
