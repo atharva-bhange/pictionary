@@ -17,7 +17,7 @@
 		"type": "git",
 		"url": "git+https://github.com/atharva-bhange/pictionary.git"
 	},
-	"author": "",
+	"author": "Atharva Nitin Bhange",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/atharva-bhange/pictionary/issues"
@@ -29,5 +29,11 @@
 	"engines": {
 		"node": "14.x",
 		"npm": "6.x"
-	}
+	},
+	"private": true,
+	"workspaces": [
+		"shared",
+		"client",
+		"server"
+	]
 }

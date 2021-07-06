@@ -8,7 +8,7 @@ import {
 	clientMessageDataType,
 	scoresDataType,
 	randomGameResultType,
-} from "../../../types/data";
+} from "shared/data";
 import {
 	setPlayer,
 	setTime,

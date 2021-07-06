@@ -1,4 +1,4 @@
-import { canvasDataType, scoresDataType } from "../../../types/data";
+import { canvasDataType, scoresDataType } from "shared/data";
 
 export type nameType = string | null;
 export type roomType = string | null;

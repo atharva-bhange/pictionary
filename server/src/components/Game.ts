@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 
 import Round from "./Round";
 import Chat from "./Chat";
-import { canvasDataType, gameDataType } from "types/data";
+import { canvasDataType, gameDataType } from "shared/data";
 import Score from "./Score";
 import Hub from "./Hub";
 import hub from "../models/hubModel";

@@ -1,5 +1,5 @@
 import { gameDataType } from "types/storeType";
-import { canvasDataType, scoresDataType } from "../../../types/data";
+import { canvasDataType, scoresDataType } from "shared/data";
 export interface setNameAction {
 	type: "SET_NAME";
 	payload: string | null;

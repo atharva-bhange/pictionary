@@ -6,7 +6,7 @@ import Player from "src/components/Player";
 import {
 	clientMessageDataType,
 	serverMessageResponseDataType,
-} from "types/data";
+} from "shared/data";
 class Chat {
 	private _word: string | null = null;
 	private _gameId: string;

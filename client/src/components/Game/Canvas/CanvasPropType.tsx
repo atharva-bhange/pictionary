@@ -1,4 +1,4 @@
-import { canvasDataType } from "../../../../../types/data";
+import { canvasDataType } from "shared/data";
 import { gameDataType } from "types/storeType";
 import {
 	setIsPaintingActionCreatorType,

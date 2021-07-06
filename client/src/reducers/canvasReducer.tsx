@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { canvasDataType } from "../../../types/data";
+import { canvasDataType } from "shared/data";
 import {
 	setCanvasAction,
 	setIsPaintingAction,
