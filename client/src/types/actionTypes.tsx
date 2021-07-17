@@ -1,5 +1,5 @@
 import { gameDataType } from "types/storeType";
-import { canvasDataType, scoresDataType } from "../../../types/data";
+import { canvasDataType, scoresDataType } from "shared/data";
 export interface setNameAction {
 	type: "SET_NAME";
 	payload: string | null;
@@ -97,4 +97,10 @@ export interface leaveGameAction {
 export interface setOnlinePlayersAction {
 	type: "SET_ONLINE_PLAYERS";
 	payload: number;
+}
+
+export interface setCanvasDimensionAction {
+	type: "SET_CANVAS_DIMENSION";
+	width: number;
+	height: number;
 }

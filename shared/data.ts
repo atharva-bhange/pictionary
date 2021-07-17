@@ -16,6 +16,8 @@ export interface canvasDataType {
 	isFinished: boolean;
 	isPainting: boolean;
 	clear: boolean;
+	width: number;
+	height: number;
 }
 
 export interface clientMessageDataType {

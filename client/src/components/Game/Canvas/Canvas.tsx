@@ -11,6 +11,7 @@ import {
 	setIsFinished,
 	setCoordinate,
 } from "action/canvasActionCreators";
+import { setCanvasDimension } from "action/canvasActionCreators";
 
 const Canvas: React.FC<CanvasPropType> = ({
 	height,
@@ -22,6 +23,7 @@ const Canvas: React.FC<CanvasPropType> = ({
 	clearCanvas,
 	setIsFinished,
 	setCoordinate,
+	setCanvasDimension,
 }) => {
 	const canvas = useRef<HTMLCanvasElement | null>(null);
 	const context = useRef<CanvasRenderingContext2D | null>(null);
@@ -38,9 +40,8 @@ const Canvas: React.FC<CanvasPropType> = ({
 			clearCanvas(false);
 		}
 		if (canvasData.isPainting && canvas.current && context.current) {
-			const rect = canvas.current.getBoundingClientRect();
-			let x_cor = canvasData.xCor - rect.left;
-			let y_cor = canvasData.yCor - rect.top;
+			let x_cor = (canvasData.xCor * width) / canvasData.width;
+			let y_cor = (canvasData.yCor * height) / canvasData.height;
 			const ctx = context.current;
 			ctx.lineWidth = canvasData.penSize;
 			ctx.lineCap = "round";
@@ -60,7 +61,8 @@ const Canvas: React.FC<CanvasPropType> = ({
 		e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
 	) => {
 		if (gameData.round) if (!gameData.round.isDrawer) return;
-		setCoordinate(e.clientX, e.clientY);
+		const rect = canvas.current?.getBoundingClientRect();
+		setCoordinate(e.clientX - rect?.left!, e.clientY - rect?.top!);
 		setIsPainting(true);
 		setIsFinished(false);
 	};
@@ -74,7 +76,10 @@ const Canvas: React.FC<CanvasPropType> = ({
 	const draw = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
 		if (gameData.round)
 			if (!gameData.round.isDrawer || !canvasData.isPainting) return;
-		setCoordinate(e.clientX, e.clientY);
+		const rect = canvas.current?.getBoundingClientRect();
+		setCoordinate(e.clientX - rect?.left!, e.clientY - rect?.top!);
+		if (canvasData.width !== width || canvasData.height !== height)
+			setCanvasDimension(width, height);
 	};
 
 	const changeSize = (e: React.WheelEvent<HTMLCanvasElement>) => {
@@ -129,4 +134,5 @@ export default connect(mapStateToProps, {
 	clearCanvas,
 	setIsFinished,
 	setCoordinate,
+	setCanvasDimension,
 })(Canvas);

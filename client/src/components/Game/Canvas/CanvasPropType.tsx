@@ -1,4 +1,4 @@
-import { canvasDataType } from "../../../../../types/data";
+import { canvasDataType } from "shared/data";
 import { gameDataType } from "types/storeType";
 import {
 	setIsPaintingActionCreatorType,
@@ -6,6 +6,7 @@ import {
 	clearCanvassActionCreatorType,
 	setIsFinishedActionCreatorType,
 	setCoordinateActionCreatorType,
+	setCanvasDimensionActionCreatorType,
 } from "types/actionCreatorTypes";
 
 interface CanvasPropType {
@@ -18,6 +19,7 @@ interface CanvasPropType {
 	clearCanvas: clearCanvassActionCreatorType;
 	setIsFinished: setIsFinishedActionCreatorType;
 	setCoordinate: setCoordinateActionCreatorType;
+	setCanvasDimension: setCanvasDimensionActionCreatorType;
 }
 
 export default CanvasPropType;
