@@ -98,3 +98,9 @@ export interface setOnlinePlayersAction {
 	type: "SET_ONLINE_PLAYERS";
 	payload: number;
 }
+
+export interface setCanvasDimensionAction {
+	type: "SET_CANVAS_DIMENSION";
+	width: number;
+	height: number;
+}

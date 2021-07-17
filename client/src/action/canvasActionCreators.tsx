@@ -6,6 +6,7 @@ import {
 	setIsFinishedActionCreatorType,
 	setCanvasDataActionCreator,
 	setCoordinateActionCreatorType,
+	setCanvasDimensionActionCreatorType,
 } from "types/actionCreatorTypes";
 
 export const setIsPainting: setIsPaintingActionCreatorType = (val) => {
@@ -55,5 +56,16 @@ export const setCoordinate: setCoordinateActionCreatorType = (x, y) => {
 		type: "SET_COORDINATE",
 		x,
 		y,
+	};
+};
+
+export const setCanvasDimension: setCanvasDimensionActionCreatorType = (
+	width,
+	height
+) => {
+	return {
+		type: "SET_CANVAS_DIMENSION",
+		width,
+		height,
 	};
 };

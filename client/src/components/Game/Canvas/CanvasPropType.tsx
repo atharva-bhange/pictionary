@@ -6,6 +6,7 @@ import {
 	clearCanvassActionCreatorType,
 	setIsFinishedActionCreatorType,
 	setCoordinateActionCreatorType,
+	setCanvasDimensionActionCreatorType,
 } from "types/actionCreatorTypes";
 
 interface CanvasPropType {
@@ -18,6 +19,7 @@ interface CanvasPropType {
 	clearCanvas: clearCanvassActionCreatorType;
 	setIsFinished: setIsFinishedActionCreatorType;
 	setCoordinate: setCoordinateActionCreatorType;
+	setCanvasDimension: setCanvasDimensionActionCreatorType;
 }
 
 export default CanvasPropType;

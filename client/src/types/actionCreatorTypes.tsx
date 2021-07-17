@@ -19,6 +19,7 @@ import {
 	toggleIsFinishedAction,
 	leaveGameAction,
 	setOnlinePlayersAction,
+	setCanvasDimensionAction,
 } from "./actionTypes";
 import storeType from "types/storeType";
 import { canvasDataType, gameDataType, scoresDataType } from "shared/data";
@@ -104,3 +105,8 @@ export type leaveGameActionCreator = () => leaveGameAction;
 export type setOnlinePlayersActionCreatorType = (
 	count: number
 ) => setOnlinePlayersAction;
+
+export type setCanvasDimensionActionCreatorType = (
+	width: number,
+	height: number
+) => setCanvasDimensionAction;
