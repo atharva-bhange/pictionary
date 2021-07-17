@@ -2,7 +2,7 @@ import Game from "../components/Game";
 import Hub from "../components/Hub";
 import Player from "../components/Player";
 import { Server, Socket } from "socket.io";
-import { randomGameResultType } from "types/data";
+import { randomGameResultType } from "shared/data";
 import hub from "../models/hubModel";
 
 export const joinGame = (io: Server, socket: Socket, gameId: string) => {
