@@ -10,8 +10,8 @@
 		"build-client": "cd client && yarn run build",
 		"build-server": "cd server && yarn run build",
 		"install-all": "yarn run install-client && yarn run install-server",
-		"install-client": "cd client && yarn i",
-		"install-server": "cd server && yarn i",
+		"install-client": "cd client && yarn",
+		"install-server": "cd server && yarn",
 		"heroku-postbuild": "yarn run install-all && yarn run build"
 	},
 	"repository": {
